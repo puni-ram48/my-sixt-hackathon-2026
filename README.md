@@ -1,6 +1,8 @@
 # Teach a machine to say "I don't know"
 **Team Zero to SIXTy · SIXT Hackathon 2026 · Project 1: Structured extraction from documents**
 
+![Our Solution Concept - Team Brainstorming Board](image_0.png)
+
 People type contract and form data into SIXT's systems by hand. An AI can do it in seconds, but one confidently wrong
 value costs far more than a minute of human time. In the hackathon's cost model a wrong booked value costs **100** and
 a human review costs **1**, so automation only pays off if booked values are right more than **99%** of the time.
