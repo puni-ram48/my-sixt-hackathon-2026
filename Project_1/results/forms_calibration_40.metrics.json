@@ -1,0 +1,115 @@
+{
+ "results": {
+  "forms_dual": {
+   "docs": 40,
+   "fields": 1666,
+   "gold_present": 1148,
+   "raw_accuracy": 0.9483793517406963,
+   "raw_wrong_clause": 31,
+   "raw_hallucinated": 3,
+   "raw_boundary": 47,
+   "raw_correct": 2130,
+   "booked": 878,
+   "booked_correct": 845,
+   "booked_wrong_clause": 10,
+   "booked_boundary": 23,
+   "booked_hallucinated": 0,
+   "precision": 0.9624145785876993,
+   "recall": 0.7360627177700348,
+   "f1": 0.8341559723593287,
+   "booking_accuracy": 0.9624145785876993,
+   "wrong_clause_rate_booked": 0.011389521640091117,
+   "false_acceptance_rate": 0.4074074074074074,
+   "false_rejection_rate": 0.6032863849765258,
+   "coverage": 0.5270108043217286,
+   "human_review_rate": 0.47298919567827136,
+   "net_saving_pct": -1.453781512605042,
+   "llm_calls_per_doc": 2.0,
+   "tokens_in_per_doc": 19242.125,
+   "tokens_out_per_doc": 7114.375,
+   "llm_latency_s_per_doc": 48.5175,
+   "cost_usd_per_doc": 0.164442
+  }
+ },
+ "sweep": {
+  "forms_dual": {
+   "0.8": {
+    "precision": 0.9549266247379455,
+    "coverage": 0.5726290516206483,
+    "booked": 954,
+    "booked_wrong_clause": 15,
+    "booked_hallucinated": 0,
+    "net_saving_pct": -2.008403361344538
+   },
+   "0.85": {
+    "precision": 0.9554140127388535,
+    "coverage": 0.5654261704681873,
+    "booked": 942,
+    "booked_wrong_clause": 14,
+    "booked_hallucinated": 0,
+    "net_saving_pct": -1.9555822328931574
+   },
+   "0.9": {
+    "precision": 0.9624145785876993,
+    "coverage": 0.5270108043217286,
+    "booked": 878,
+    "booked_wrong_clause": 10,
+    "booked_hallucinated": 0,
+    "net_saving_pct": -1.453781512605042
+   },
+   "0.95": {
+    "precision": 1.0,
+    "coverage": 0.3085234093637455,
+    "booked": 514,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": 0.3085234093637455
+   }
+  }
+ },
+ "rules": {
+  "forms_dual": [
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 845,
+    "wrong_clause": 10,
+    "boundary": 23
+   },
+   {
+    "rule": "ABSTAIN: both readers: not present",
+    "true_null": 515,
+    "missed": 3
+   },
+   {
+    "rule": "REJECT: value not found in the text layer (groun",
+    "correct": 119,
+    "boundary": 1,
+    "wrong_clause": 2
+   },
+   {
+    "rule": "REVIEW: below threshold",
+    "correct": 83,
+    "wrong_clause": 7,
+    "boundary": 6
+   },
+   {
+    "rule": "REVIEW: only one reader found a value",
+    "boundary": 1,
+    "missed": 2,
+    "hallucinated": 2,
+    "correct": 2
+   },
+   {
+    "rule": "REVIEW: readers disagree",
+    "wrong_clause": 12,
+    "correct": 15,
+    "boundary": 16,
+    "hallucinated": 1
+   },
+   {
+    "rule": "REVIEW: value found, but not next to its label '",
+    "correct": 1
+   }
+  ]
+ }
+}

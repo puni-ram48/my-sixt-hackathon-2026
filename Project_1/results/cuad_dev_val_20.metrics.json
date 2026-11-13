@@ -1,0 +1,1362 @@
+{
+ "results": {
+  "baseline": {
+   "docs": 20,
+   "fields": 820,
+   "gold_present": 228,
+   "raw_accuracy": 0.774390243902439,
+   "raw_wrong_clause": 8,
+   "raw_hallucinated": 41,
+   "raw_boundary": 73,
+   "raw_correct": 168,
+   "booked": 52,
+   "booked_correct": 40,
+   "booked_wrong_clause": 0,
+   "booked_boundary": 10,
+   "booked_hallucinated": 2,
+   "precision": 0.7692307692307693,
+   "recall": 0.17543859649122806,
+   "f1": 0.2857142857142857,
+   "booking_accuracy": 0.7692307692307693,
+   "wrong_clause_rate_booked": 0.0,
+   "false_acceptance_rate": 0.09836065573770492,
+   "false_rejection_rate": 0.7619047619047619,
+   "coverage": 0.06341463414634146,
+   "human_review_rate": 0.9365853658536585,
+   "net_saving_pct": -1.4,
+   "llm_calls_per_doc": 1.0,
+   "tokens_in_per_doc": 13671.55,
+   "tokens_out_per_doc": 1909.2,
+   "llm_latency_s_per_doc": 10.203999999999999,
+   "cost_usd_per_doc": 0.06965265000000001
+  },
+  "A_bm25": {
+   "docs": 20,
+   "fields": 820,
+   "gold_present": 228,
+   "raw_accuracy": 0.7719512195121951,
+   "raw_wrong_clause": 13,
+   "raw_hallucinated": 37,
+   "raw_boundary": 50,
+   "raw_correct": 156,
+   "booked": 44,
+   "booked_correct": 29,
+   "booked_wrong_clause": 0,
+   "booked_boundary": 8,
+   "booked_hallucinated": 7,
+   "precision": 0.6590909090909091,
+   "recall": 0.12719298245614036,
+   "f1": 0.21323529411764708,
+   "booking_accuracy": 0.6590909090909091,
+   "wrong_clause_rate_booked": 0.0,
+   "false_acceptance_rate": 0.15,
+   "false_rejection_rate": 0.8141025641025641,
+   "coverage": 0.05365853658536585,
+   "human_review_rate": 0.9463414634146341,
+   "net_saving_pct": -1.775609756097561,
+   "llm_calls_per_doc": 3.0,
+   "tokens_in_per_doc": 19060.2,
+   "tokens_out_per_doc": 3014.0,
+   "llm_latency_s_per_doc": 17.186500000000002,
+   "cost_usd_per_doc": 0.1023906
+  },
+  "B_embed": {
+   "docs": 20,
+   "fields": 820,
+   "gold_present": 228,
+   "raw_accuracy": 0.7695121951219512,
+   "raw_wrong_clause": 11,
+   "raw_hallucinated": 41,
+   "raw_boundary": 48,
+   "raw_correct": 160,
+   "booked": 44,
+   "booked_correct": 26,
+   "booked_wrong_clause": 0,
+   "booked_boundary": 13,
+   "booked_hallucinated": 5,
+   "precision": 0.5909090909090909,
+   "recall": 0.11403508771929824,
+   "f1": 0.19117647058823528,
+   "booking_accuracy": 0.5909090909090909,
+   "wrong_clause_rate_booked": 0.0,
+   "false_acceptance_rate": 0.18,
+   "false_rejection_rate": 0.8375,
+   "coverage": 0.05365853658536585,
+   "human_review_rate": 0.9463414634146341,
+   "net_saving_pct": -2.1414634146341465,
+   "llm_calls_per_doc": 3.0,
+   "tokens_in_per_doc": 16489.95,
+   "tokens_out_per_doc": 3022.6,
+   "llm_latency_s_per_doc": 17.118000000000002,
+   "cost_usd_per_doc": 0.09480885
+  },
+  "C_hybrid": {
+   "docs": 20,
+   "fields": 820,
+   "gold_present": 228,
+   "raw_accuracy": 0.7951219512195122,
+   "raw_wrong_clause": 10,
+   "raw_hallucinated": 46,
+   "raw_boundary": 80,
+   "raw_correct": 212,
+   "booked": 53,
+   "booked_correct": 38,
+   "booked_wrong_clause": 0,
+   "booked_boundary": 10,
+   "booked_hallucinated": 5,
+   "precision": 0.7169811320754716,
+   "recall": 0.16666666666666666,
+   "f1": 0.2704626334519573,
+   "booking_accuracy": 0.7169811320754716,
+   "wrong_clause_rate_booked": 0.0,
+   "false_acceptance_rate": 0.11029411764705882,
+   "false_rejection_rate": 0.8207547169811321,
+   "coverage": 0.06463414634146342,
+   "human_review_rate": 0.9353658536585365,
+   "net_saving_pct": -1.7646341463414634,
+   "llm_calls_per_doc": 3.0,
+   "tokens_in_per_doc": 21667.05,
+   "tokens_out_per_doc": 3770.5,
+   "llm_latency_s_per_doc": 20.5745,
+   "cost_usd_per_doc": 0.12155864999999999
+  },
+  "D_hybrid_verify": {
+   "docs": 20,
+   "fields": 820,
+   "gold_present": 228,
+   "raw_accuracy": 0.7951219512195122,
+   "raw_wrong_clause": 10,
+   "raw_hallucinated": 46,
+   "raw_boundary": 80,
+   "raw_correct": 212,
+   "booked": 53,
+   "booked_correct": 38,
+   "booked_wrong_clause": 0,
+   "booked_boundary": 10,
+   "booked_hallucinated": 5,
+   "precision": 0.7169811320754716,
+   "recall": 0.16666666666666666,
+   "f1": 0.2704626334519573,
+   "booking_accuracy": 0.7169811320754716,
+   "wrong_clause_rate_booked": 0.0,
+   "false_acceptance_rate": 0.11029411764705882,
+   "false_rejection_rate": 0.8207547169811321,
+   "coverage": 0.06463414634146342,
+   "human_review_rate": 0.9353658536585365,
+   "net_saving_pct": -1.7646341463414634,
+   "llm_calls_per_doc": 4.55,
+   "tokens_in_per_doc": 33830.4,
+   "tokens_out_per_doc": 4924.45,
+   "llm_latency_s_per_doc": 28.4335,
+   "cost_usd_per_doc": 0.17535795
+  },
+  "E_agent": {
+   "docs": 20,
+   "fields": 820,
+   "gold_present": 228,
+   "raw_accuracy": 0.774390243902439,
+   "raw_wrong_clause": 13,
+   "raw_hallucinated": 25,
+   "raw_boundary": 87,
+   "raw_correct": 136,
+   "booked": 57,
+   "booked_correct": 30,
+   "booked_wrong_clause": 2,
+   "booked_boundary": 22,
+   "booked_hallucinated": 3,
+   "precision": 0.5263157894736842,
+   "recall": 0.13157894736842105,
+   "f1": 0.21052631578947367,
+   "booking_accuracy": 0.5263157894736842,
+   "wrong_clause_rate_booked": 0.03508771929824561,
+   "false_acceptance_rate": 0.216,
+   "false_rejection_rate": 0.7794117647058824,
+   "coverage": 0.06951219512195123,
+   "human_review_rate": 0.9304878048780487,
+   "net_saving_pct": -3.223170731707317,
+   "llm_calls_per_doc": 3.55,
+   "tokens_in_per_doc": 42768.95,
+   "tokens_out_per_doc": 4041.15,
+   "llm_latency_s_per_doc": 24.118000000000002,
+   "cost_usd_per_doc": 0.18892409999999998
+  },
+  "F_agent_verify": {
+   "docs": 20,
+   "fields": 820,
+   "gold_present": 228,
+   "raw_accuracy": 0.774390243902439,
+   "raw_wrong_clause": 13,
+   "raw_hallucinated": 25,
+   "raw_boundary": 87,
+   "raw_correct": 136,
+   "booked": 57,
+   "booked_correct": 30,
+   "booked_wrong_clause": 2,
+   "booked_boundary": 22,
+   "booked_hallucinated": 3,
+   "precision": 0.5263157894736842,
+   "recall": 0.13157894736842105,
+   "f1": 0.21052631578947367,
+   "booking_accuracy": 0.5263157894736842,
+   "wrong_clause_rate_booked": 0.03508771929824561,
+   "false_acceptance_rate": 0.216,
+   "false_rejection_rate": 0.7794117647058824,
+   "coverage": 0.06951219512195123,
+   "human_review_rate": 0.9304878048780487,
+   "net_saving_pct": -3.223170731707317,
+   "llm_calls_per_doc": 4.9,
+   "tokens_in_per_doc": 51116.2,
+   "tokens_out_per_doc": 4909.4,
+   "llm_latency_s_per_doc": 32.311,
+   "cost_usd_per_doc": 0.2269896
+  },
+  "G_baseline_gated": {
+   "docs": 20,
+   "fields": 820,
+   "gold_present": 228,
+   "raw_accuracy": 0.774390243902439,
+   "raw_wrong_clause": 8,
+   "raw_hallucinated": 41,
+   "raw_boundary": 73,
+   "raw_correct": 168,
+   "booked": 20,
+   "booked_correct": 19,
+   "booked_wrong_clause": 0,
+   "booked_boundary": 0,
+   "booked_hallucinated": 1,
+   "precision": 0.95,
+   "recall": 0.08333333333333333,
+   "f1": 0.1532258064516129,
+   "booking_accuracy": 0.95,
+   "wrong_clause_rate_booked": 0.0,
+   "false_acceptance_rate": 0.00819672131147541,
+   "false_rejection_rate": 0.8869047619047619,
+   "coverage": 0.024390243902439025,
+   "human_review_rate": 0.975609756097561,
+   "net_saving_pct": -0.0975609756097561,
+   "llm_calls_per_doc": 1.0,
+   "tokens_in_per_doc": 13671.55,
+   "tokens_out_per_doc": 1909.2,
+   "llm_latency_s_per_doc": 10.203999999999999,
+   "cost_usd_per_doc": 0.06965265000000001
+  },
+  "H_baseline_gated_verify": {
+   "docs": 20,
+   "fields": 820,
+   "gold_present": 228,
+   "raw_accuracy": 0.774390243902439,
+   "raw_wrong_clause": 8,
+   "raw_hallucinated": 41,
+   "raw_boundary": 73,
+   "raw_correct": 168,
+   "booked": 17,
+   "booked_correct": 16,
+   "booked_wrong_clause": 0,
+   "booked_boundary": 0,
+   "booked_hallucinated": 1,
+   "precision": 0.9411764705882353,
+   "recall": 0.07017543859649122,
+   "f1": 0.13061224489795917,
+   "booking_accuracy": 0.9411764705882353,
+   "wrong_clause_rate_booked": 0.0,
+   "false_acceptance_rate": 0.00819672131147541,
+   "false_rejection_rate": 0.9047619047619048,
+   "coverage": 0.020731707317073172,
+   "human_review_rate": 0.9792682926829268,
+   "net_saving_pct": -0.10121951219512196,
+   "llm_calls_per_doc": 2.4,
+   "tokens_in_per_doc": 22343.05,
+   "tokens_out_per_doc": 2857.55,
+   "llm_latency_s_per_doc": 17.128999999999998,
+   "cost_usd_per_doc": 0.1098924
+  },
+  "H_verify_gpt": {
+   "docs": 20,
+   "fields": 820,
+   "gold_present": 228,
+   "raw_accuracy": 0.774390243902439,
+   "raw_wrong_clause": 8,
+   "raw_hallucinated": 41,
+   "raw_boundary": 73,
+   "raw_correct": 168,
+   "booked": 17,
+   "booked_correct": 16,
+   "booked_wrong_clause": 0,
+   "booked_boundary": 0,
+   "booked_hallucinated": 1,
+   "precision": 0.9411764705882353,
+   "recall": 0.07017543859649122,
+   "f1": 0.13061224489795917,
+   "booking_accuracy": 0.9411764705882353,
+   "wrong_clause_rate_booked": 0.0,
+   "false_acceptance_rate": 0.00819672131147541,
+   "false_rejection_rate": 0.9047619047619048,
+   "coverage": 0.020731707317073172,
+   "human_review_rate": 0.9792682926829268,
+   "net_saving_pct": -0.10121951219512196,
+   "llm_calls_per_doc": 2.4,
+   "tokens_in_per_doc": 18986.7,
+   "tokens_out_per_doc": 4701.1,
+   "llm_latency_s_per_doc": 46.0335,
+   "cost_usd_per_doc": 0.1274766
+  },
+  "H_verify_gemini": {
+   "docs": 20,
+   "fields": 820,
+   "gold_present": 228,
+   "raw_accuracy": 0.774390243902439,
+   "raw_wrong_clause": 8,
+   "raw_hallucinated": 41,
+   "raw_boundary": 73,
+   "raw_correct": 168,
+   "booked": 16,
+   "booked_correct": 15,
+   "booked_wrong_clause": 0,
+   "booked_boundary": 0,
+   "booked_hallucinated": 1,
+   "precision": 0.9375,
+   "recall": 0.06578947368421052,
+   "f1": 0.12295081967213113,
+   "booking_accuracy": 0.9375,
+   "wrong_clause_rate_booked": 0.0,
+   "false_acceptance_rate": 0.00819672131147541,
+   "false_rejection_rate": 0.9107142857142857,
+   "coverage": 0.01951219512195122,
+   "human_review_rate": 0.9804878048780488,
+   "net_saving_pct": -0.1024390243902439,
+   "llm_calls_per_doc": 2.4,
+   "tokens_in_per_doc": 19172.8,
+   "tokens_out_per_doc": 6512.9,
+   "llm_latency_s_per_doc": 51.974000000000004,
+   "cost_usd_per_doc": 0.1552119
+  },
+  "FINAL": {
+   "docs": 20,
+   "fields": 820,
+   "gold_present": 228,
+   "raw_accuracy": 0.774390243902439,
+   "raw_wrong_clause": 8,
+   "raw_hallucinated": 41,
+   "raw_boundary": 73,
+   "raw_correct": 168,
+   "booked": 11,
+   "booked_correct": 11,
+   "booked_wrong_clause": 0,
+   "booked_boundary": 0,
+   "booked_hallucinated": 0,
+   "precision": 1.0,
+   "recall": 0.04824561403508772,
+   "f1": 0.09205020920502091,
+   "booking_accuracy": 1.0,
+   "wrong_clause_rate_booked": 0.0,
+   "false_acceptance_rate": 0.0,
+   "false_rejection_rate": 0.9345238095238095,
+   "coverage": 0.013414634146341463,
+   "human_review_rate": 0.9865853658536585,
+   "net_saving_pct": 0.013414634146341463,
+   "llm_calls_per_doc": 1.0,
+   "tokens_in_per_doc": 13671.55,
+   "tokens_out_per_doc": 1909.2,
+   "llm_latency_s_per_doc": 10.203999999999999,
+   "cost_usd_per_doc": 0.06965265000000001
+  }
+ },
+ "sweep": {
+  "baseline": {
+   "0.8": {
+    "precision": 0.6962025316455697,
+    "coverage": 0.09634146341463415,
+    "booked": 79,
+    "booked_wrong_clause": 2,
+    "booked_hallucinated": 7,
+    "net_saving_pct": -2.830487804878049
+   },
+   "0.85": {
+    "precision": 0.71875,
+    "coverage": 0.07804878048780488,
+    "booked": 64,
+    "booked_wrong_clause": 1,
+    "booked_hallucinated": 3,
+    "net_saving_pct": -2.1170731707317074
+   },
+   "0.9": {
+    "precision": 0.7692307692307693,
+    "coverage": 0.06341463414634146,
+    "booked": 52,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 2,
+    "net_saving_pct": -1.4
+   },
+   "0.95": {
+    "precision": 0.9333333333333333,
+    "coverage": 0.018292682926829267,
+    "booked": 15,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": -0.10365853658536585
+   }
+  },
+  "A_bm25": {
+   "0.8": {
+    "precision": 0.5588235294117647,
+    "coverage": 0.08292682926829269,
+    "booked": 68,
+    "booked_wrong_clause": 2,
+    "booked_hallucinated": 11,
+    "net_saving_pct": -3.575609756097561
+   },
+   "0.85": {
+    "precision": 0.625,
+    "coverage": 0.06829268292682927,
+    "booked": 56,
+    "booked_wrong_clause": 1,
+    "booked_hallucinated": 8,
+    "net_saving_pct": -2.4926829268292683
+   },
+   "0.9": {
+    "precision": 0.6590909090909091,
+    "coverage": 0.05365853658536585,
+    "booked": 44,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 7,
+    "net_saving_pct": -1.775609756097561
+   },
+   "0.95": {
+    "precision": 0.7272727272727273,
+    "coverage": 0.026829268292682926,
+    "booked": 22,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 2,
+    "net_saving_pct": -0.7048780487804878
+   }
+  },
+  "B_embed": {
+   "0.8": {
+    "precision": 0.5316455696202531,
+    "coverage": 0.09634146341463415,
+    "booked": 79,
+    "booked_wrong_clause": 3,
+    "booked_hallucinated": 10,
+    "net_saving_pct": -4.4158536585365855
+   },
+   "0.85": {
+    "precision": 0.5625,
+    "coverage": 0.07804878048780488,
+    "booked": 64,
+    "booked_wrong_clause": 2,
+    "booked_hallucinated": 7,
+    "net_saving_pct": -3.3365853658536584
+   },
+   "0.9": {
+    "precision": 0.5909090909090909,
+    "coverage": 0.05365853658536585,
+    "booked": 44,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 5,
+    "net_saving_pct": -2.1414634146341465
+   },
+   "0.95": {
+    "precision": 0.7058823529411765,
+    "coverage": 0.020731707317073172,
+    "booked": 17,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": -0.5890243902439024
+   }
+  },
+  "C_hybrid": {
+   "0.8": {
+    "precision": 0.7205882352941176,
+    "coverage": 0.08292682926829269,
+    "booked": 68,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 5,
+    "net_saving_pct": -2.234146341463415
+   },
+   "0.85": {
+    "precision": 0.7076923076923077,
+    "coverage": 0.07926829268292683,
+    "booked": 65,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 5,
+    "net_saving_pct": -2.2378048780487805
+   },
+   "0.9": {
+    "precision": 0.7169811320754716,
+    "coverage": 0.06463414634146342,
+    "booked": 53,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 5,
+    "net_saving_pct": -1.7646341463414634
+   },
+   "0.95": {
+    "precision": 0.6842105263157895,
+    "coverage": 0.023170731707317073,
+    "booked": 19,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 2,
+    "net_saving_pct": -0.7085365853658536
+   }
+  },
+  "D_hybrid_verify": {
+   "0.8": {
+    "precision": 0.7164179104477612,
+    "coverage": 0.08170731707317073,
+    "booked": 67,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 5,
+    "net_saving_pct": -2.2353658536585366
+   },
+   "0.85": {
+    "precision": 0.703125,
+    "coverage": 0.07804878048780488,
+    "booked": 64,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 5,
+    "net_saving_pct": -2.2390243902439027
+   },
+   "0.9": {
+    "precision": 0.7169811320754716,
+    "coverage": 0.06463414634146342,
+    "booked": 53,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 5,
+    "net_saving_pct": -1.7646341463414634
+   },
+   "0.95": {
+    "precision": 0.6842105263157895,
+    "coverage": 0.023170731707317073,
+    "booked": 19,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 2,
+    "net_saving_pct": -0.7085365853658536
+   }
+  },
+  "E_agent": {
+   "0.8": {
+    "precision": 0.5301204819277109,
+    "coverage": 0.10121951219512196,
+    "booked": 83,
+    "booked_wrong_clause": 6,
+    "booked_hallucinated": 7,
+    "net_saving_pct": -4.654878048780488
+   },
+   "0.85": {
+    "precision": 0.5492957746478874,
+    "coverage": 0.08658536585365853,
+    "booked": 71,
+    "booked_wrong_clause": 3,
+    "booked_hallucinated": 6,
+    "net_saving_pct": -3.8158536585365854
+   },
+   "0.9": {
+    "precision": 0.5263157894736842,
+    "coverage": 0.06951219512195123,
+    "booked": 57,
+    "booked_wrong_clause": 2,
+    "booked_hallucinated": 3,
+    "net_saving_pct": -3.223170731707317
+   },
+   "0.95": {
+    "precision": 0.5,
+    "coverage": 0.024390243902439025,
+    "booked": 20,
+    "booked_wrong_clause": 1,
+    "booked_hallucinated": 0,
+    "net_saving_pct": -1.1951219512195121
+   }
+  },
+  "F_agent_verify": {
+   "0.8": {
+    "precision": 0.5432098765432098,
+    "coverage": 0.09878048780487805,
+    "booked": 81,
+    "booked_wrong_clause": 5,
+    "booked_hallucinated": 7,
+    "net_saving_pct": -4.413414634146341
+   },
+   "0.85": {
+    "precision": 0.5492957746478874,
+    "coverage": 0.08658536585365853,
+    "booked": 71,
+    "booked_wrong_clause": 3,
+    "booked_hallucinated": 6,
+    "net_saving_pct": -3.8158536585365854
+   },
+   "0.9": {
+    "precision": 0.5263157894736842,
+    "coverage": 0.06951219512195123,
+    "booked": 57,
+    "booked_wrong_clause": 2,
+    "booked_hallucinated": 3,
+    "net_saving_pct": -3.223170731707317
+   },
+   "0.95": {
+    "precision": 0.5,
+    "coverage": 0.024390243902439025,
+    "booked": 20,
+    "booked_wrong_clause": 1,
+    "booked_hallucinated": 0,
+    "net_saving_pct": -1.1951219512195121
+   }
+  },
+  "G_baseline_gated": {
+   "0.8": {
+    "precision": 0.9090909090909091,
+    "coverage": 0.026829268292682926,
+    "booked": 22,
+    "booked_wrong_clause": 1,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.21707317073170732
+   },
+   "0.85": {
+    "precision": 0.9047619047619048,
+    "coverage": 0.025609756097560974,
+    "booked": 21,
+    "booked_wrong_clause": 1,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.21829268292682927
+   },
+   "0.9": {
+    "precision": 0.95,
+    "coverage": 0.024390243902439025,
+    "booked": 20,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.0975609756097561
+   },
+   "0.95": {
+    "precision": 1.0,
+    "coverage": 0.013414634146341463,
+    "booked": 11,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": 0.013414634146341463
+   }
+  },
+  "H_baseline_gated_verify": {
+   "0.8": {
+    "precision": 0.9411764705882353,
+    "coverage": 0.020731707317073172,
+    "booked": 17,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.10121951219512196
+   },
+   "0.85": {
+    "precision": 0.9411764705882353,
+    "coverage": 0.020731707317073172,
+    "booked": 17,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.10121951219512196
+   },
+   "0.9": {
+    "precision": 0.9411764705882353,
+    "coverage": 0.020731707317073172,
+    "booked": 17,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.10121951219512196
+   },
+   "0.95": {
+    "precision": 1.0,
+    "coverage": 0.012195121951219513,
+    "booked": 10,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": 0.012195121951219513
+   }
+  },
+  "H_verify_gpt": {
+   "0.8": {
+    "precision": 0.9411764705882353,
+    "coverage": 0.020731707317073172,
+    "booked": 17,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.10121951219512196
+   },
+   "0.85": {
+    "precision": 0.9411764705882353,
+    "coverage": 0.020731707317073172,
+    "booked": 17,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.10121951219512196
+   },
+   "0.9": {
+    "precision": 0.9411764705882353,
+    "coverage": 0.020731707317073172,
+    "booked": 17,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.10121951219512196
+   },
+   "0.95": {
+    "precision": 1.0,
+    "coverage": 0.012195121951219513,
+    "booked": 10,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": 0.012195121951219513
+   }
+  },
+  "H_verify_gemini": {
+   "0.8": {
+    "precision": 0.9375,
+    "coverage": 0.01951219512195122,
+    "booked": 16,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.1024390243902439
+   },
+   "0.85": {
+    "precision": 0.9375,
+    "coverage": 0.01951219512195122,
+    "booked": 16,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.1024390243902439
+   },
+   "0.9": {
+    "precision": 0.9375,
+    "coverage": 0.01951219512195122,
+    "booked": 16,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.1024390243902439
+   },
+   "0.95": {
+    "precision": 1.0,
+    "coverage": 0.012195121951219513,
+    "booked": 10,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": 0.012195121951219513
+   }
+  },
+  "FINAL": {
+   "0.8": {
+    "precision": 0.9090909090909091,
+    "coverage": 0.026829268292682926,
+    "booked": 22,
+    "booked_wrong_clause": 1,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.21707317073170732
+   },
+   "0.85": {
+    "precision": 0.9047619047619048,
+    "coverage": 0.025609756097560974,
+    "booked": 21,
+    "booked_wrong_clause": 1,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.21829268292682927
+   },
+   "0.9": {
+    "precision": 0.95,
+    "coverage": 0.024390243902439025,
+    "booked": 20,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 1,
+    "net_saving_pct": -0.0975609756097561
+   },
+   "0.95": {
+    "precision": 1.0,
+    "coverage": 0.013414634146341463,
+    "booked": 11,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": 0.013414634146341463
+   }
+  }
+ },
+ "rules": {
+  "A_bm25": [
+   {
+    "rule": "ABSTAIN: no supporting clause",
+    "missed": 87,
+    "true_null": 555
+   },
+   {
+    "rule": "REVIEW: below threshold",
+    "correct": 19,
+    "boundary": 16,
+    "hallucinated": 19,
+    "wrong_clause": 8
+   },
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 29,
+    "boundary": 8,
+    "hallucinated": 7
+   },
+   {
+    "rule": "REVIEW: not whole sentences",
+    "boundary": 20,
+    "hallucinated": 8,
+    "correct": 14,
+    "wrong_clause": 2
+   },
+   {
+    "rule": "REVIEW: not located",
+    "correct": 11,
+    "boundary": 4,
+    "hallucinated": 1
+   },
+   {
+    "rule": "ABSTAIN: did not mark",
+    "correct": 5,
+    "boundary": 2,
+    "hallucinated": 2,
+    "wrong_clause": 3
+   }
+  ],
+  "B_embed": [
+   {
+    "rule": "ABSTAIN: no supporting clause",
+    "missed": 89,
+    "true_null": 551
+   },
+   {
+    "rule": "REVIEW: below threshold",
+    "correct": 29,
+    "boundary": 18,
+    "hallucinated": 19,
+    "wrong_clause": 8
+   },
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 26,
+    "boundary": 13,
+    "hallucinated": 5
+   },
+   {
+    "rule": "REVIEW: not whole sentences",
+    "correct": 18,
+    "boundary": 15,
+    "hallucinated": 6,
+    "wrong_clause": 1
+   },
+   {
+    "rule": "ABSTAIN: did not mark",
+    "boundary": 1,
+    "hallucinated": 9,
+    "correct": 1,
+    "wrong_clause": 2
+   },
+   {
+    "rule": "REVIEW: not located",
+    "correct": 6,
+    "hallucinated": 2,
+    "boundary": 1
+   }
+  ],
+  "C_hybrid": [
+   {
+    "rule": "ABSTAIN: no supporting clause",
+    "missed": 32,
+    "true_null": 546
+   },
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 38,
+    "boundary": 10,
+    "hallucinated": 5
+   },
+   {
+    "rule": "REVIEW: clause type uncertain",
+    "correct": 17,
+    "boundary": 15,
+    "hallucinated": 10,
+    "wrong_clause": 6
+   },
+   {
+    "rule": "REJECT: is not a",
+    "correct": 11,
+    "boundary": 11,
+    "hallucinated": 15,
+    "wrong_clause": 2
+   },
+   {
+    "rule": "REVIEW: not whole sentences",
+    "boundary": 23,
+    "correct": 12,
+    "hallucinated": 3
+   },
+   {
+    "rule": "REVIEW: below threshold",
+    "boundary": 10,
+    "hallucinated": 7,
+    "correct": 19,
+    "wrong_clause": 1
+   },
+   {
+    "rule": "REVIEW: probably incomplete",
+    "correct": 6,
+    "boundary": 10
+   },
+   {
+    "rule": "ABSTAIN: did not mark",
+    "hallucinated": 6,
+    "correct": 1,
+    "wrong_clause": 1
+   },
+   {
+    "rule": "REVIEW: not located",
+    "correct": 2,
+    "boundary": 1
+   }
+  ],
+  "D_hybrid_verify": [
+   {
+    "rule": "ABSTAIN: no supporting clause",
+    "missed": 32,
+    "true_null": 546
+   },
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 38,
+    "boundary": 10,
+    "hallucinated": 5
+   },
+   {
+    "rule": "REJECT: is not a",
+    "correct": 11,
+    "boundary": 12,
+    "hallucinated": 15,
+    "wrong_clause": 2
+   },
+   {
+    "rule": "REVIEW: clause type uncertain",
+    "correct": 16,
+    "boundary": 9,
+    "hallucinated": 7,
+    "wrong_clause": 3
+   },
+   {
+    "rule": "REVIEW: not whole sentences",
+    "boundary": 19,
+    "correct": 12,
+    "hallucinated": 2
+   },
+   {
+    "rule": "REVIEW: verifier: AMBIGUOUS",
+    "boundary": 10,
+    "correct": 6,
+    "hallucinated": 6,
+    "wrong_clause": 4
+   },
+   {
+    "rule": "REVIEW: below threshold",
+    "hallucinated": 4,
+    "correct": 14,
+    "boundary": 6
+   },
+   {
+    "rule": "REVIEW: probably incomplete",
+    "correct": 4,
+    "boundary": 9
+   },
+   {
+    "rule": "ABSTAIN: did not mark",
+    "hallucinated": 6,
+    "correct": 1,
+    "wrong_clause": 1
+   },
+   {
+    "rule": "REJECT: verifier: UNSUPPORTED",
+    "correct": 2,
+    "boundary": 3,
+    "hallucinated": 1
+   },
+   {
+    "rule": "REVIEW: not located",
+    "correct": 2,
+    "boundary": 1
+   },
+   {
+    "rule": "REVIEW: is not a",
+    "boundary": 1
+   }
+  ],
+  "E_agent": [
+   {
+    "rule": "ABSTAIN: no supporting clause",
+    "missed": 42,
+    "true_null": 544
+   },
+   {
+    "rule": "REVIEW: not whole sentences",
+    "boundary": 45,
+    "correct": 16,
+    "wrong_clause": 2,
+    "hallucinated": 8
+   },
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 30,
+    "boundary": 22,
+    "wrong_clause": 2,
+    "hallucinated": 3
+   },
+   {
+    "rule": "REVIEW: below threshold",
+    "boundary": 16,
+    "hallucinated": 13,
+    "correct": 20,
+    "wrong_clause": 8
+   },
+   {
+    "rule": "ABSTAIN: extraction failed",
+    "missed": 18,
+    "true_null": 23
+   },
+   {
+    "rule": "REVIEW: not located",
+    "correct": 2,
+    "wrong_clause": 1,
+    "hallucinated": 1,
+    "boundary": 1
+   },
+   {
+    "rule": "REJECT: not found in document",
+    "boundary": 2
+   },
+   {
+    "rule": "ABSTAIN: did not mark",
+    "boundary": 1
+   }
+  ],
+  "F_agent_verify": [
+   {
+    "rule": "ABSTAIN: no supporting clause",
+    "missed": 42,
+    "true_null": 544
+   },
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 30,
+    "boundary": 22,
+    "wrong_clause": 2,
+    "hallucinated": 3
+   },
+   {
+    "rule": "REVIEW: not whole sentences",
+    "boundary": 37,
+    "correct": 12,
+    "hallucinated": 6,
+    "wrong_clause": 1
+   },
+   {
+    "rule": "REVIEW: below threshold",
+    "boundary": 11,
+    "correct": 18,
+    "hallucinated": 10,
+    "wrong_clause": 5
+   },
+   {
+    "rule": "ABSTAIN: extraction failed",
+    "missed": 18,
+    "true_null": 23
+   },
+   {
+    "rule": "REVIEW: verifier: AMBIGUOUS",
+    "boundary": 13,
+    "hallucinated": 3,
+    "correct": 5,
+    "wrong_clause": 3
+   },
+   {
+    "rule": "REJECT: verifier: UNSUPPORTED",
+    "correct": 3,
+    "hallucinated": 2,
+    "wrong_clause": 2
+   },
+   {
+    "rule": "REJECT: not found in document",
+    "boundary": 2
+   },
+   {
+    "rule": "REVIEW: not located",
+    "hallucinated": 1,
+    "boundary": 1
+   },
+   {
+    "rule": "ABSTAIN: did not mark",
+    "boundary": 1
+   }
+  ],
+  "G_baseline_gated": [
+   {
+    "rule": "ABSTAIN: no supporting clause",
+    "missed": 63,
+    "true_null": 551
+   },
+   {
+    "rule": "REVIEW: not reliable on calibration",
+    "boundary": 14,
+    "correct": 25,
+    "hallucinated": 6,
+    "wrong_clause": 2
+   },
+   {
+    "rule": "REJECT: is not a",
+    "correct": 10,
+    "hallucinated": 19,
+    "boundary": 9,
+    "wrong_clause": 3
+   },
+   {
+    "rule": "REVIEW: clause type uncertain",
+    "boundary": 12,
+    "correct": 14,
+    "hallucinated": 9,
+    "wrong_clause": 2
+   },
+   {
+    "rule": "REVIEW: not whole sentences",
+    "boundary": 19,
+    "correct": 12,
+    "hallucinated": 4
+   },
+   {
+    "rule": "REVIEW: probably incomplete",
+    "boundary": 19,
+    "correct": 3,
+    "hallucinated": 1
+   },
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 19,
+    "hallucinated": 1
+   },
+   {
+    "rule": "REVIEW: below threshold",
+    "wrong_clause": 1,
+    "hallucinated": 1,
+    "correct": 1
+   }
+  ],
+  "H_baseline_gated_verify": [
+   {
+    "rule": "ABSTAIN: no supporting clause",
+    "missed": 63,
+    "true_null": 551
+   },
+   {
+    "rule": "REJECT: is not a",
+    "correct": 10,
+    "hallucinated": 19,
+    "boundary": 9,
+    "wrong_clause": 3
+   },
+   {
+    "rule": "REVIEW: not reliable on calibration",
+    "correct": 24,
+    "boundary": 9,
+    "hallucinated": 5,
+    "wrong_clause": 1
+   },
+   {
+    "rule": "REVIEW: clause type uncertain",
+    "correct": 17,
+    "hallucinated": 6,
+    "wrong_clause": 3,
+    "boundary": 8
+   },
+   {
+    "rule": "REVIEW: not whole sentences",
+    "boundary": 16,
+    "correct": 11,
+    "hallucinated": 4
+   },
+   {
+    "rule": "REVIEW: verifier: AMBIGUOUS",
+    "boundary": 14,
+    "correct": 4,
+    "hallucinated": 4,
+    "wrong_clause": 1
+   },
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 16,
+    "hallucinated": 1
+   },
+   {
+    "rule": "REJECT: verifier: UNSUPPORTED",
+    "boundary": 8,
+    "hallucinated": 2,
+    "correct": 1
+   },
+   {
+    "rule": "REVIEW: probably incomplete",
+    "boundary": 9,
+    "correct": 1
+   }
+  ],
+  "H_verify_gpt": [
+   {
+    "rule": "ABSTAIN: no supporting clause",
+    "missed": 63,
+    "true_null": 551
+   },
+   {
+    "rule": "REJECT: is not a",
+    "correct": 10,
+    "hallucinated": 19,
+    "boundary": 9,
+    "wrong_clause": 3
+   },
+   {
+    "rule": "REVIEW: not reliable on calibration",
+    "correct": 23,
+    "hallucinated": 5,
+    "boundary": 10
+   },
+   {
+    "rule": "REVIEW: clause type uncertain",
+    "correct": 15,
+    "boundary": 10,
+    "hallucinated": 5,
+    "wrong_clause": 2
+   },
+   {
+    "rule": "REVIEW: not whole sentences",
+    "boundary": 15,
+    "correct": 10,
+    "hallucinated": 3
+   },
+   {
+    "rule": "REVIEW: verifier: AMBIGUOUS",
+    "boundary": 8,
+    "correct": 6,
+    "hallucinated": 5,
+    "wrong_clause": 3
+   },
+   {
+    "rule": "REJECT: verifier: UNSUPPORTED",
+    "boundary": 15,
+    "hallucinated": 3,
+    "correct": 2
+   },
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 16,
+    "hallucinated": 1
+   },
+   {
+    "rule": "REVIEW: probably incomplete",
+    "correct": 2,
+    "boundary": 6
+   }
+  ],
+  "H_verify_gemini": [
+   {
+    "rule": "ABSTAIN: no supporting clause",
+    "missed": 63,
+    "true_null": 551
+   },
+   {
+    "rule": "REJECT: is not a",
+    "correct": 10,
+    "hallucinated": 19,
+    "boundary": 9,
+    "wrong_clause": 3
+   },
+   {
+    "rule": "REVIEW: not reliable on calibration",
+    "correct": 23,
+    "boundary": 11,
+    "hallucinated": 5
+   },
+   {
+    "rule": "REVIEW: clause type uncertain",
+    "correct": 16,
+    "hallucinated": 6,
+    "boundary": 7,
+    "wrong_clause": 2
+   },
+   {
+    "rule": "REVIEW: not whole sentences",
+    "boundary": 15,
+    "correct": 10,
+    "hallucinated": 3
+   },
+   {
+    "rule": "REJECT: verifier: UNSUPPORTED",
+    "boundary": 14,
+    "hallucinated": 4,
+    "wrong_clause": 1,
+    "correct": 2
+   },
+   {
+    "rule": "REVIEW: verifier: AMBIGUOUS",
+    "boundary": 9,
+    "correct": 6,
+    "wrong_clause": 2,
+    "hallucinated": 3
+   },
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 15,
+    "hallucinated": 1
+   },
+   {
+    "rule": "REVIEW: probably incomplete",
+    "correct": 2,
+    "boundary": 8
+   }
+  ],
+  "FINAL": [
+   {
+    "rule": "ABSTAIN: no supporting clause",
+    "missed": 63,
+    "true_null": 551
+   },
+   {
+    "rule": "REVIEW: not reliable on calibration",
+    "boundary": 14,
+    "correct": 25,
+    "hallucinated": 6,
+    "wrong_clause": 2
+   },
+   {
+    "rule": "REJECT: is not a",
+    "correct": 10,
+    "hallucinated": 19,
+    "boundary": 9,
+    "wrong_clause": 3
+   },
+   {
+    "rule": "REVIEW: clause type uncertain",
+    "boundary": 12,
+    "correct": 14,
+    "hallucinated": 9,
+    "wrong_clause": 2
+   },
+   {
+    "rule": "REVIEW: not whole sentences",
+    "boundary": 19,
+    "correct": 12,
+    "hallucinated": 4
+   },
+   {
+    "rule": "REVIEW: probably incomplete",
+    "boundary": 19,
+    "correct": 3,
+    "hallucinated": 1
+   },
+   {
+    "rule": "REVIEW: below threshold",
+    "correct": 9,
+    "wrong_clause": 1,
+    "hallucinated": 2
+   },
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 11
+   }
+  ]
+ }
+}

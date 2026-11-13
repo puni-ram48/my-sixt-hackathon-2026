@@ -1,0 +1,126 @@
+{
+ "results": {
+  "G_baseline_gated": {
+   "docs": 60,
+   "fields": 2460,
+   "gold_present": 831,
+   "raw_accuracy": 0.7410569105691057,
+   "raw_wrong_clause": 41,
+   "raw_hallucinated": 116,
+   "raw_boundary": 232,
+   "raw_correct": 620,
+   "booked": 48,
+   "booked_correct": 48,
+   "booked_wrong_clause": 0,
+   "booked_boundary": 0,
+   "booked_hallucinated": 0,
+   "precision": 1.0,
+   "recall": 0.05776173285198556,
+   "f1": 0.10921501706484643,
+   "booking_accuracy": 1.0,
+   "wrong_clause_rate_booked": 0.0,
+   "false_acceptance_rate": 0.0,
+   "false_rejection_rate": 0.9225806451612903,
+   "coverage": 0.01951219512195122,
+   "human_review_rate": 0.9804878048780488,
+   "net_saving_pct": 0.01951219512195122,
+   "llm_calls_per_doc": 1.0,
+   "tokens_in_per_doc": 16209.183333333332,
+   "tokens_out_per_doc": 2103.55,
+   "llm_latency_s_per_doc": 11.122833333333334,
+   "cost_usd_per_doc": 0.0801808
+  }
+ },
+ "sweep": {
+  "G_baseline_gated": {
+   "0.8": {
+    "precision": 0.9649122807017544,
+    "coverage": 0.023170731707317073,
+    "booked": 57,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": -0.05813008130081301
+   },
+   "0.85": {
+    "precision": 0.9818181818181818,
+    "coverage": 0.022357723577235773,
+    "booked": 55,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": -0.018292682926829267
+   },
+   "0.9": {
+    "precision": 1.0,
+    "coverage": 0.01951219512195122,
+    "booked": 48,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": 0.01951219512195122
+   },
+   "0.95": {
+    "precision": 1.0,
+    "coverage": 0.01016260162601626,
+    "booked": 25,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": 0.01016260162601626
+   }
+  }
+ },
+ "rules": {
+  "G_baseline_gated": [
+   {
+    "rule": "ABSTAIN: no supporting clause",
+    "true_null": 1513,
+    "missed": 248
+   },
+   {
+    "rule": "REVIEW: not reliable on calibration",
+    "correct": 125,
+    "boundary": 52,
+    "hallucinated": 21,
+    "wrong_clause": 10
+   },
+   {
+    "rule": "REVIEW: clause type uncertain",
+    "hallucinated": 33,
+    "correct": 40,
+    "boundary": 38,
+    "wrong_clause": 14
+   },
+   {
+    "rule": "REJECT: is not a",
+    "boundary": 25,
+    "hallucinated": 51,
+    "wrong_clause": 8,
+    "correct": 31
+   },
+   {
+    "rule": "REVIEW: not whole sentences",
+    "boundary": 58,
+    "wrong_clause": 4,
+    "correct": 38,
+    "hallucinated": 11
+   },
+   {
+    "rule": "REVIEW: probably incomplete",
+    "boundary": 54,
+    "correct": 18,
+    "wrong_clause": 5
+   },
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 48
+   },
+   {
+    "rule": "REVIEW: below threshold",
+    "correct": 10,
+    "boundary": 3
+   },
+   {
+    "rule": "REJECT: not found in document",
+    "boundary": 2
+   }
+  ]
+ }
+}

@@ -1,0 +1,212 @@
+{
+ "results": {
+  "forms_dual": {
+   "docs": 32,
+   "fields": 1564,
+   "gold_present": 1029,
+   "raw_accuracy": 0.7941176470588235,
+   "raw_wrong_clause": 45,
+   "raw_hallucinated": 2,
+   "raw_boundary": 30,
+   "raw_correct": 1418,
+   "booked": 581,
+   "booked_correct": 558,
+   "booked_wrong_clause": 8,
+   "booked_boundary": 15,
+   "booked_hallucinated": 0,
+   "precision": 0.9604130808950087,
+   "recall": 0.5422740524781341,
+   "f1": 0.6931677018633541,
+   "booking_accuracy": 0.9604130808950087,
+   "wrong_clause_rate_booked": 0.013769363166953529,
+   "false_acceptance_rate": 0.2987012987012987,
+   "false_rejection_rate": 0.6064880112834978,
+   "coverage": 0.37148337595907927,
+   "human_review_rate": 0.6285166240409208,
+   "net_saving_pct": -1.0991048593350383,
+   "llm_calls_per_doc": 2.0,
+   "tokens_in_per_doc": 30124.5,
+   "tokens_out_per_doc": 6708.96875,
+   "llm_latency_s_per_doc": 46.535,
+   "cost_usd_per_doc": 0.19100803125
+  },
+  "forms_dual_policy": {
+   "docs": 32,
+   "fields": 1564,
+   "gold_present": 1029,
+   "raw_accuracy": 0.7941176470588235,
+   "raw_wrong_clause": 45,
+   "raw_hallucinated": 2,
+   "raw_boundary": 30,
+   "raw_correct": 1418,
+   "booked": 101,
+   "booked_correct": 101,
+   "booked_wrong_clause": 0,
+   "booked_boundary": 0,
+   "booked_hallucinated": 0,
+   "precision": 1.0,
+   "recall": 0.09815354713313897,
+   "f1": 0.17876106194690264,
+   "booking_accuracy": 1.0,
+   "wrong_clause_rate_booked": 0.0,
+   "false_acceptance_rate": 0.0,
+   "false_rejection_rate": 0.9287729196050776,
+   "coverage": 0.06457800511508952,
+   "human_review_rate": 0.9354219948849105,
+   "net_saving_pct": 0.06457800511508952,
+   "llm_calls_per_doc": 2.0,
+   "tokens_in_per_doc": 30124.5,
+   "tokens_out_per_doc": 6708.96875,
+   "llm_latency_s_per_doc": 46.535,
+   "cost_usd_per_doc": 0.19100803125
+  }
+ },
+ "sweep": {
+  "forms_dual": {
+   "0.8": {
+    "precision": 0.9559270516717325,
+    "coverage": 0.42071611253196933,
+    "booked": 658,
+    "booked_wrong_clause": 9,
+    "booked_hallucinated": 0,
+    "net_saving_pct": -1.4335038363171355
+   },
+   "0.85": {
+    "precision": 0.9556962025316456,
+    "coverage": 0.4040920716112532,
+    "booked": 632,
+    "booked_wrong_clause": 9,
+    "booked_hallucinated": 0,
+    "net_saving_pct": -1.3861892583120206
+   },
+   "0.9": {
+    "precision": 0.9604130808950087,
+    "coverage": 0.37148337595907927,
+    "booked": 581,
+    "booked_wrong_clause": 8,
+    "booked_hallucinated": 0,
+    "net_saving_pct": -1.0991048593350383
+   },
+   "0.95": {
+    "precision": 0.989247311827957,
+    "coverage": 0.23785166240409208,
+    "booked": 372,
+    "booked_wrong_clause": 3,
+    "booked_hallucinated": 0,
+    "net_saving_pct": -0.017902813299232736
+   }
+  },
+  "forms_dual_policy": {
+   "0.8": {
+    "precision": 1.0,
+    "coverage": 0.06649616368286446,
+    "booked": 104,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": 0.06649616368286446
+   },
+   "0.85": {
+    "precision": 1.0,
+    "coverage": 0.06585677749360613,
+    "booked": 103,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": 0.06585677749360613
+   },
+   "0.9": {
+    "precision": 1.0,
+    "coverage": 0.06457800511508952,
+    "booked": 101,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": 0.06457800511508952
+   },
+   "0.95": {
+    "precision": 1.0,
+    "coverage": 0.05179028132992328,
+    "booked": 81,
+    "booked_wrong_clause": 0,
+    "booked_hallucinated": 0,
+    "net_saving_pct": 0.05179028132992328
+   }
+  }
+ },
+ "rules": {
+  "forms_dual": [
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 558,
+    "boundary": 15,
+    "wrong_clause": 8
+   },
+   {
+    "rule": "ABSTAIN: both readers: not present",
+    "true_null": 490,
+    "missed": 16
+   },
+   {
+    "rule": "REVIEW: only one reader found a value",
+    "true_null": 43,
+    "missed": 229,
+    "correct": 1,
+    "hallucinated": 2
+   },
+   {
+    "rule": "REVIEW: below threshold",
+    "correct": 100,
+    "boundary": 6,
+    "wrong_clause": 4
+   },
+   {
+    "rule": "REJECT: value not found in the text layer (groun",
+    "correct": 43,
+    "wrong_clause": 3
+   },
+   {
+    "rule": "REVIEW: readers disagree",
+    "wrong_clause": 30,
+    "boundary": 9,
+    "correct": 7
+   }
+  ],
+  "forms_dual_policy": [
+   {
+    "rule": "REVIEW: not reliable on calibration",
+    "correct": 553,
+    "boundary": 21,
+    "wrong_clause": 12
+   },
+   {
+    "rule": "ABSTAIN: both readers: not present",
+    "true_null": 490,
+    "missed": 16
+   },
+   {
+    "rule": "REVIEW: only one reader found a value",
+    "true_null": 43,
+    "missed": 229,
+    "correct": 1,
+    "hallucinated": 2
+   },
+   {
+    "rule": "BOOK: all checks passed",
+    "correct": 101
+   },
+   {
+    "rule": "REJECT: value not found in the text layer (groun",
+    "correct": 43,
+    "wrong_clause": 3
+   },
+   {
+    "rule": "REVIEW: below threshold",
+    "correct": 4
+   },
+   {
+    "rule": "REVIEW: readers disagree",
+    "wrong_clause": 30,
+    "boundary": 9,
+    "correct": 7
+   }
+  ]
+ }
+}

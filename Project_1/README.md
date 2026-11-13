@@ -148,3 +148,142 @@ The general criteria are on the back of the hackathon handout. Here, "Results" m
 Keep these in anything you publish. We converted both datasets to one format.
 - Zhang, Lyjak, Stewart, Li, Suo (2026). *ExtractBench: A Benchmark for Schema-Guided Enterprise Document Extraction.* arXiv:2607.29677.
 - Hendrycks, Burns, Chen, Ball (2021). *CUAD: An Expert-Annotated NLP Dataset for Legal Contract Review.* NeurIPS Datasets and Benchmarks.
+
+---
+
+## Our solution: evidence-gated hybrid extraction (`hybrid/`)
+
+**Idea.** The baseline books a value when the LLM says it is confident. Self-reported confidence did not separate right
+from wrong answers: on 20 held-out contracts it booked 12 wrong values at 0.9, a net saving of −140%. We book a value
+only when *independent evidence* supports it, and say "I don't know" otherwise. The original pipeline (`solution/`) is
+unchanged and still runs with `python -m solution.run`.
+
+### Architecture (contracts, CUAD)
+```
+contract text ─► 1 clause units (character offsets, headings kept)          hybrid/clauses.py, fields.py
+              ─► 2 candidate retrieval per field                             hybrid/retrieve.py
+                    BM25 + bge-small embeddings + clause classifier, weighted RRF, every candidate explained
+              ─► 3 clause classifier: P(clause is of this field type)        hybrid/classify.py
+              ─► 4 extraction: value, verbatim quote, clause id, why, confidence, supported   hybrid/extract.py
+              ─► 5 optional independent verifier (another model family)      hybrid/verify.py
+              ─► 6 decision rules (first match wins, no averaging)           hybrid/decide.py
+                    ABSTAIN  nothing supported        REJECT  not in document / wrong clause type / verifier says no
+                    REVIEW   incomplete (other clauses of this type not covered), fragment, verifier ambiguous,
+                             field unreliable on calibration data, confidence below threshold
+                    BOOK     every check above passed
+```
+- **Clause classifier.** One logistic-regression head per field on frozen embeddings, trained on 31,969 clauses from
+  160 dev-train contracts. Labels come from CUAD's gold evidence spans. Held-out AUC is 0.88 (Governing Law AP 0.93,
+  Cap On Liability 0.74); rare fields with fewer than 25 examples are weak. It is the best retriever: the gold clause
+  is in its top 8 for 89% of fields, vs 57% for BM25 (`python -m hybrid.eval_retrieval`).
+- **Per-field reliability policy** (`hybrid/field_policy.py`). A field may be booked only if, on 60 *calibration*
+  contracts (dev-train, not used for training), at most 1% of its booked values were wrong. That is the break-even
+  point for an error cost of 100 vs a review cost of 1. The policy is learned, not hand-written; unseen fields go to review.
+- **Forms and scans (ExtractBench)** (`hybrid/forms.py`). These are 1–10 page forms; 45% are scans with no text
+  layer, so the clause pipeline does not apply. Pages are rendered to images and read by **two independent vision
+  models from different families** (`LLM_MODEL` = Claude Sonnet 5.5, `FORMS_SECOND_MODEL` = GPT-5.5). A value can only
+  be booked if both reads agree; if the PDF has a text layer, the value must also be on the page (grounding) and sit
+  next to its printed label (word boxes). A per-field policy is learned on 40 dev-train forms. We chose this over an
+  OCR stack (PaddleOCR / LayoutParser) because that is slow to install and run on CPU and weak on historical handwriting.
+
+### Results on 20 held-out contracts (dev-val, 820 fields, never used to fit anything)
+| config | precision@0.9 | coverage@0.9 | booked errors (wrong clause / invented / incomplete) | net saving @0.9 | net saving @0.95 | calls/doc |
+|---|---:|---:|---|---:|---:|---:|
+| baseline (whole document, LLM confidence) | 76.9% | 6.3% | 0 / 2 / 10 | −140.0% | −10.4% | 1.0 |
+| A: BM25 → LLM | 65.9% | 5.4% | 0 / 7 / 8 | −177.6% | −70.5% | 3.0 |
+| B: embeddings → LLM | 59.1% | 5.4% | 0 / 5 / 13 | −214.1% | −58.9% | 3.0 |
+| C: hybrid retrieval → LLM + clause gates | 71.7% | 6.5% | 0 / 5 / 10 | −176.5% | −70.9% | 3.0 |
+| D: C + verifier | 71.7% | 6.5% | 0 / 5 / 10 | −176.5% | −70.9% | 4.5 |
+| E: agentic RAG (the LLM searches and reads) | 52.6% | 7.0% | 2 / 3 / 22 | −322.3% | −119.5% | 3.5 |
+| **G: baseline extraction + evidence gates (submitted as FINAL, threshold 0.95)** | **95.0%** | 2.4% | **0 / 1\* / 0** | **−9.8%** | **+1.3%** | 1.0 |
+| H: G + verifier (Claude / GPT-5.5 / Gemini 3.1 Pro) | 93.8–94.1% | 2.0–2.1% | 0 / 1\* / 0 | −10.1% to −10.2% | +1.2% | 2.4 |
+
+\* The one remaining "invented" value is a label gap. The contract says it "is governed by the laws of the State of
+California", but CUAD's gold label is empty. All three verifiers called it SUPPORTED. At the declared threshold 0.95,
+FINAL books 11 values on these contracts, all correct.
+
+### Results on 32 held-out forms (ExtractBench dev-val, 1,564 fields)
+| config | booked | precision | booked errors | net saving @0.9 | net saving @0.95 | calls/doc |
+|---|---:|---:|---:|---:|---:|---:|
+| two vision readers must agree (no field policy) | 581 | 96.0% | 23 | −109.9% | −1.8% | 2 |
+| **+ learned field policy (submitted as forms_final, 0.95)** | **81** | **100%** | **0** | +6.5% | **+5.2%** | 2 |
+
+Agreement between two models from different families was not enough on its own: they still agreed on 23 wrong values,
+mostly nested tables and look-alike handwriting. The field policy removes them.
+
+### Submitted system, all held-out dev-val data (52 documents, 2,384 fields), official scorer, threshold 0.95
+**precision 100% · 0 hallucinations · coverage 7.3% · net saving +3.9%**, the same at an error cost of 20, 100 or 500,
+because no wrong value was booked.
+
+### Untouched check on public-test data (never used for any choice)
+`bash run_hidden.sh` on the first 20 contracts and 12 forms of `test_public.jsonl`, with gold removed, then
+`5_score.py --threshold 0.95` (32 documents, 1,439 fields, 23 minutes end to end, no failures):
+
+| dataset | fields | booked | correct | wrong | hallucinated | net saving |
+|---|---:|---:|---:|---:|---:|---:|
+| CUAD contracts (20) | 820 | 9 | 9 | 0 | 0 | +1.1% |
+| ExtractBench forms (12) | 619 | 73 | 73 | 0 | 0 | +11.8% |
+| **all** | **1,439** | **82** | **82** | **0** | **0** | **+5.7%** |
+
+Precision 100% (scorer band 99%), coverage 10.9%. The numbers are in line with dev-val, so the method was not tuned to it.
+
+**What we learned**
+1. The main booked error was not the wrong clause but an *incomplete* answer: the gold lists every passage (2–5), and
+   the model quotes one. The completeness rule and the field policy remove these.
+2. Better retrieval raised raw accuracy (C: 79.5% vs 77.4%) but did not make booking safe on its own.
+3. A second LLM pass as verifier, with the same model or another family, changed almost nothing and cost 2.4× the calls.
+4. The agent shortened clause answers to bare values and did worst.
+5. Safe booking is narrow today. Only Document Name and Governing Law qualify on calibration data, so coverage is
+   small (about 1–2% of fields), but nothing booked was wrong.
+
+### Examples (from the decision traces in `data/runs/hybrid_eval/dev_val_20/*.trace.jsonl`)
+- **Correct booking.** *Governing Law*, Hertz IP agreement. The value is found verbatim as a whole sentence, the
+  classifier gives its clause (C49) p=0.97, the field is bookable on calibration data (21/21) and confidence is 0.95,
+  so it is BOOKED. It matches the gold.
+- **Wrong-clause rejection.** *Non-Disparagement*, China Real Estate domain licence. The model proposed "Licensee shall
+  not knowingly use the Licensed Domain Names in any manner that tarnishes, degrades, disparages…". The text exists,
+  but the classifier gives that clause p=0.0005 for Non-Disparagement, so it is REJECTED. Gold: field absent.
+- **Incomplete, sent to review.** *Parties*, same contract. The answer names two companies, but clauses C2, C178 and C1
+  also look like party clauses (p 0.76 / 0.73 / 0.59), so it goes to REVIEW. The gold also lists "Licensor" and "Licensee".
+- **Abstention.** *Expiration Date*, Thrivent endorsement. Retrieval's best clause has classifier p=0.02 and the model
+  returns null, so the system ABSTAINS. Gold: absent.
+
+### Run
+```bash
+pip install -r requirements.txt                 # adds numpy, fastembed (+onnxruntime), scikit-learn
+bash run_hidden.sh in.jsonl out.jsonl           # FINAL config; also writes out.trace.jsonl with every decision
+python -m hybrid.run --data data/unified/dev.jsonl --out preds.jsonl --config FINAL --trace trace.jsonl --limit 5
+python 5_score.py --gold data/unified/dev.jsonl --pred preds.jsonl --threshold 0.95
+```
+Environment: `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` (the extractor and first form reader; we used
+`claude-sonnet-5.5`). Optional: `FORMS_SECOND_MODEL` (second form reader, default `gpt-5.5`), `HYBRID_NONCONTRACT`
+(`forms_final` default | `review` | `baseline`), `LLM_VERIFY_MODEL`, `HYBRID_EMBED_MODEL`.
+The embedding model (~130 MB) downloads on first use; without `fastembed`, retrieval falls back to BM25.
+
+### Reproduce the evaluation
+```bash
+python -m hybrid.classify                       # train the clause classifier on dev-train (CPU, ~1 h first time, then cached)
+python -m hybrid.eval_retrieval --part val --limit-docs 20          # retrieval hit@k, no API
+python -m hybrid.evaluate --part train --offset 160 --limit-docs 60 --configs G_baseline_gated
+python -m hybrid.field_policy --run-dir data/runs/hybrid_eval/dev_train_60_from160 --config G_baseline_gated
+python -m hybrid.evaluate --part val --limit-docs 20                # all configs -> report.md + metrics.json
+python -m hybrid.evaluate --part val --limit-docs 20 --replay       # recompute metrics from the cache, no API
+python -m hybrid.evaluate --part train --source extractbench --limit-docs 40 --configs forms_dual
+python -m hybrid.forms fit --run-dir data/runs/hybrid_eval/dev_train_40_extractbench --config forms_dual
+python -m hybrid.evaluate --part val --source extractbench --limit-docs 32 --configs forms_dual,forms_dual_policy
+python -m unittest tests.test_hybrid tests.test_verify
+```
+LLM replies are cached in `data/cache/llm/` with their original token counts and latency, so re-runs are free.
+`hybrid/split.py` splits dev documents 4:1 by hash into train and val; the 10 pilot contracts read by hand always go
+to train. test_public was not used for any choice.
+
+### Limitations
+- Evaluated on 20 held-out contracts (820 fields). One booked error moves net saving by about 12 points, so the
+  numbers are indicative. The threshold (0.95) is the only one that is positive on both calibration and validation data.
+- Coverage is low. Most clause fields are spread over several passages, so they are left to humans.
+- The classifier is weak for rare clause types; the field policy keeps those fields manual.
+- Verifiers were measured but are not used: they gave no gain on this data. The team rate limit (400 requests/hour)
+  also limits multi-pass designs.
+- Forms: the text-layer check rejected 43 correct values on dev-val (formatting such as "$1,234" vs "1234"); fixing
+  it would raise coverage. Forms need two vision calls (~45 s, ~$0.19 per document at the assumed price).
+- CPU embedding is slow (~55 ms per clause). The cache makes repeat runs fast; a first run on a new contract takes seconds.
