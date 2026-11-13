@@ -1,0 +1,1037 @@
+{
+ "final_k1": {
+  "n": 13,
+  "correct": 13,
+  "bookable": true
+ },
+ "amended_k1": {
+  "n": 13,
+  "correct": 13,
+  "bookable": true
+ },
+ "is_publicly_traded_partnership": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "is_general_partner": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "is_domestic_partner": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "box_17_amt_items": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "capital_current_year_increase_decrease": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "box_1_ordinary_business_income": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "capital_contributed": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "capital_ending_account": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "box_14_self_employment_earnings": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "corporation_ein": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "corporation_name": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "shareholder_id": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "shareholder_name": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "box_15_amt_items": {
+  "n": 8,
+  "correct": 8,
+  "bookable": true
+ },
+ "corporation_address": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "irs_center": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "shareholder_address": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "shareholder_stock_ownership_pct": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "box_17_other_information": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "operator_name": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "operator_p5_no": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "rrc_district_no_and_county": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "mailing_address": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "recovery_waterflood": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "recovery_co2_augmented_waterflooding": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "recovery_polymer_augmented_waterflooding": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "recovery_immiscible_co2_displacement": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "recovery_steam_drive_injection": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "recovery_gas_injection": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "recovery_microemulsion_micellar_flooding": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "recovery_alkaline_caustic_flooding": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "recovery_cyclic_steam_injection": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "recovery_in_situ_combustion": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "recovery_miscible_fluid_displacement": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "recovery_other": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "new_initial_secondary": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "new_initial_tertiary": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "new_tertiary_superseding_secondary": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "exp_different_secondary_method": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "exp_expansion_secondary": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "exp_different_tertiary_method": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "exp_expansion_tertiary": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "fluid_brackish_water": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "fluid_saltwater": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "fluid_natural_gas": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "fluid_fresh_water": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "fluid_air": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "fluid_polymer": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "fluid_nitrogen": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "fluid_lpg": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "fluid_co2": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "fluid_other": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "est_avg_volume_fluid_injected": {
+  "n": 4,
+  "correct": 3,
+  "bookable": false
+ },
+ "est_avg_injection_pressure": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "anticipated_date_injection_begin": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "multiple_lease_yes": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "multiple_lease_no": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "total_anticipated_leases": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "total_anticipated_producing_wells": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "total_anticipated_injection_wells": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "lease_or_unit_name": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "lease_no": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "unitization_approved_yes": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "unitization_approved_no": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "unitization_order_no_and_date": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "inj_auth_c_wells": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "signature_present": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "title": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "name_print_or_type": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "certificate_date": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "phone": {
+  "n": 4,
+  "correct": 2,
+  "bookable": false
+ },
+ "rrc_approved": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "rrc_denied": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "est_ult_additional_production_oil": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "est_ult_additional_production_gas": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "est_total_value_oil": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "est_total_value_gas": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "est_cost_machinery": {
+  "n": 3,
+  "correct": 1,
+  "bookable": false
+ },
+ "est_cost_project_total": {
+  "n": 3,
+  "correct": 0,
+  "bookable": false
+ },
+ "field_name": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "unitization_needed_yes": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "unitization_needed_no": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "inj_auth_a_granted": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "inj_auth_b_applied_date": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "inj_auth_b_wells": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "inj_auth_c_anticipated": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "inj_auth_a_authority_date": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "inj_auth_a_wells": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "filing_manager_name": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "is_amendment": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "report_type": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "table_entry_total": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "table_value_total_usd": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "is_confidential_omitted": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "p1_company": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "p1_address": {
+  "n": 5,
+  "correct": 3,
+  "bookable": false
+ },
+ "p1_block_no": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p1_survey": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "p1_county": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "p1_well_no": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "p1_name_of_lease": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p1_no_of_acres": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "p1_elev": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "p1_name_of_field": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p1_located_miles": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "p1_located_direction": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "p1_located_from": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "p1_form1_filed_in_name_of": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "p1_ever_produced_oil": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "p1_ever_produced_gas": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "p1_character_of_well": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "p1_total_depth": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "p1_party_plugging_well": {
+  "n": 5,
+  "correct": 3,
+  "bookable": false
+ },
+ "p1_party_plugging_address": {
+  "n": 6,
+  "correct": 4,
+  "bookable": false
+ },
+ "p1_correspondence_name": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "p1_correspondence_address": {
+  "n": 5,
+  "correct": 4,
+  "bookable": false
+ },
+ "p1_init_prod_oil_barrels": {
+  "n": 7,
+  "correct": 7,
+  "bookable": true
+ },
+ "p2_company": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_address": {
+  "n": 5,
+  "correct": 4,
+  "bookable": false
+ },
+ "p2_block_no": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_survey": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "p2_county": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_well_no": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_name_of_lease": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "p2_no_of_acres": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_name_of_field": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "p2_form1_filed_in_name_of": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_completion_dry": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "p2_ever_produced_oil_or_gas": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "p2_total_depth": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_top_of_producing_sand": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_filled_with_mud_laden_fluid": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_how_mud_applied": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "p2_were_plugs_used": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "p2_depth_thickness_formations": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_abandoned_wells_plugged": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_manner_of_confining": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "p2_adjacent_owners": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_notice_given_adjacent_owners": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_affiant_name": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_affiant_title": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "p2_sworn_day": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_sworn_month": {
+  "n": 5,
+  "correct": 5,
+  "bookable": true
+ },
+ "p2_sworn_year": {
+  "n": 6,
+  "correct": 5,
+  "bookable": false
+ },
+ "p2_notary_signature": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p2_notary_county": {
+  "n": 6,
+  "correct": 6,
+  "bookable": true
+ },
+ "p1_drilling_commenced": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "p1_drilling_completed": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "p2_correspondence_name": {
+  "n": 5,
+  "correct": 0,
+  "bookable": false
+ },
+ "p2_correspondence_address": {
+  "n": 4,
+  "correct": 0,
+  "bookable": false
+ },
+ "payer_name": {
+  "n": 9,
+  "correct": 9,
+  "bookable": true
+ },
+ "payer_address": {
+  "n": 11,
+  "correct": 11,
+  "bookable": true
+ },
+ "payer_federal_id": {
+  "n": 11,
+  "correct": 11,
+  "bookable": true
+ },
+ "account_number": {
+  "n": 9,
+  "correct": 9,
+  "bookable": true
+ },
+ "recipient_name": {
+  "n": 11,
+  "correct": 11,
+  "bookable": true
+ },
+ "recipient_address": {
+  "n": 11,
+  "correct": 11,
+  "bookable": true
+ },
+ "recipient_tax_id": {
+  "n": 9,
+  "correct": 9,
+  "bookable": true
+ },
+ "corrected": {
+  "n": 11,
+  "correct": 11,
+  "bookable": true
+ },
+ "second_tin_notice": {
+  "n": 11,
+  "correct": 11,
+  "bookable": true
+ },
+ "inj_auth_a_project_no": {
+  "n": 1,
+  "correct": 0,
+  "bookable": false
+ },
+ "inj_auth_b_applied": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "operator": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "operator_number": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "rrc_district": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "city": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "state": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "zip_code": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "lease_facility_operation_name": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "field_or_area_name": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "county": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "optype_a_oil_field": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "optype_b_gas_field": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "optype_c_pipeline_gathering": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "optype_d_gasoline_plant": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "optype_e_drilling_workover": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "optype_f_sweetening_unit": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "optype_g_combination": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "optype_h_other": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "operation_existing": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "operation_new": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "modification_cert_change_yes": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "modification_cert_change_no": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "workover_100ppm_3000ft_yes": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "workover_100ppm_3000ft_no": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "roe_100ppm_public_area_yes": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "roe_100ppm_public_area_no": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "roe_500ppm_public_road_yes": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "roe_500ppm_public_road_no": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "injection_h2s_fluid_yes": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "injection_h2s_fluid_no": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "depth_of_compliance_drilling": {
+  "n": 2,
+  "correct": 1,
+  "bookable": false
+ },
+ "contingency_plan_prepared_yes": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "contingency_plan_prepared_no": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "phone_no": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "rrc_use_date": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "exempt_stamp_present": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "operations_covered": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "street_or_po_box": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ },
+ "operation_type_other_explanation": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "h2s_concentration": {
+  "n": 2,
+  "correct": 0,
+  "bookable": false
+ },
+ "maximum_escape_volume": {
+  "n": 1,
+  "correct": 0,
+  "bookable": false
+ },
+ "roe_100ppm": {
+  "n": 1,
+  "correct": 0,
+  "bookable": false
+ },
+ "roe_500ppm": {
+  "n": 1,
+  "correct": 0,
+  "bookable": false
+ },
+ "contingency_plan_location": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "data_location": {
+  "n": 2,
+  "correct": 2,
+  "bookable": false
+ }
+}
