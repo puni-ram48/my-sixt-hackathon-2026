@@ -176,15 +176,15 @@ All 12 contract configs and both forms configs, with threshold sweeps and per-ru
 | `hybrid/extract.py`, `verify.py`, `agent.py` | evidence extraction, LLM verifier, agentic RAG (experiments) |
 | `hybrid/decide.py` | decision rules for contracts |
 | `hybrid/forms.py` | forms pipeline: rendering, two readers, text-layer and label checks, decision rules |
-| `hybrid/evaluate.py`, `eval_retrieval.py`, `calibrate.py`, `split.py` | evaluation framework, retrieval eval, threshold calibration tool, data splits |
+| `hybrid/evaluate.py`, `eval_retrieval.py`, `split.py` | evaluation framework, retrieval eval, data splits |
 | `hybrid/gold_check.py` | deterministic check of gold labels against the printed text |
 | `hybrid/llm.py` | LLM client with on-disk cache, token and latency logging |
 | `hybrid/models/` | **committed trained artefacts**: clause classifier, contract and forms field policies |
 | `solution/` | original baseline, kept for comparison (`python -m solution.run`) |
 | `results/` | method comparisons and reports |
 | `tests/` | offline tests (`python -m unittest tests.test_hybrid tests.test_verify`) |
-| `review_app.py` | Streamlit app for reviewing answers by hand |
-| `1_download.sh`, `2_prepare.py`, `selection.tsv`, `3_baseline.py`, `4_extract_example.py`, `5_score.py`, `test_score.py`, `setup.sh` | organiser starter kit (data download, no-AI reference, scorer) |
+| `review_app.py` | optional Streamlit app for reviewing answers by hand (`pip install streamlit==1.67.0` first) |
+| `1_download.sh`, `2_prepare.py`, `selection.tsv`, `3_baseline.py`, `5_score.py`, `test_score.py`, `setup.sh` | organiser starter kit (data download, no-AI reference, scorer) |
 
 ## Run
 Setup, API keys and models are described step by step in the [repository README](../README.md#setup-and-run-step-by-step).

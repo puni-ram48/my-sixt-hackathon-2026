@@ -3,7 +3,9 @@
 Put one prediction file per model run in data/runs/ (e.g. data/runs/sonnet_cuad.jsonl).
 Verdicts are saved to data/reviews.csv (git-ignored).
 
+Optional tool: streamlit is not in requirements.txt (it is large and the submission does not need it).
 Run from Project_1:
+    pip install streamlit==1.67.0
     .venv\\Scripts\\python.exe -m streamlit run review_app.py
 """
 from __future__ import annotations
