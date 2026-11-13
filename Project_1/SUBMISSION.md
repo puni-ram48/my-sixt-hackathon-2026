@@ -104,7 +104,7 @@ python 5_score.py --gold data/unified/dev.jsonl --pred <output.jsonl> --threshol
 python -m unittest tests.test_hybrid tests.test_verify # offline tests, no API
 ```
 The trained classifier and both field policies are committed in `hybrid/models/`, so no training is needed to run.
-The embedding model (~130 MB) downloads on first use. To reproduce the experiments, see "Reproduce the evaluation" in
+The embedding model ([Qdrant/bge-small-en-v1.5-onnx-Q](https://huggingface.co/Qdrant/bge-small-en-v1.5-onnx-Q), ~67 MB) downloads on first use. To reproduce the experiments, see "Reproduce the evaluation" in
 `README.md`; LLM replies are cached, so repeat runs are free.
 
 **Environment variables** (names only): `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` (= `claude-sonnet-5.5`).

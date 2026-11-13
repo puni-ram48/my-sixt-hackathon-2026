@@ -1,6 +1,6 @@
 """Stage 2B: local sentence embeddings (fastembed + BAAI/bge-small-en-v1.5, ONNX on CPU).
 
-Why this model: 384 dimensions, ~130 MB, about 1,000 short texts per second on a laptop CPU, no torch.
+Why this model: 384 dimensions, ~67 MB (quantized ONNX from Hugging Face: Qdrant/bge-small-en-v1.5-onnx-Q), about 1,000 short texts per second on a laptop CPU, no torch.
 The project's LLM endpoint has no /embeddings route, so embeddings must be local.
 
 If fastembed is not installed, get_embedder() returns None and the pipeline falls back to BM25 only.

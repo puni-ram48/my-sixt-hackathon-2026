@@ -63,7 +63,7 @@ been error-free on 40 calibration forms.
 |---|---|
 | Python | 3.11 or newer (we used 3.12.3) |
 | Shell | `bash` (on Windows: Git Bash) and `git` |
-| Internet | once, to install packages, download the data (~60 MB) and the embedding model (~130 MB) |
+| Internet | once, to install packages, download the data (~60 MB) and the embedding model (~67 MB) |
 | **LLM endpoint + API key** | any OpenAI-compatible endpoint (`/chat/completions`) that serves the two models below; the hackathon key works |
 | **Model 1: `claude-sonnet-5.5`** | contract extractor and first form reader (set as `LLM_MODEL`) |
 | **Model 2: `gpt-5.5`** | second, independent form reader (`FORMS_SECOND_MODEL`, default `gpt-5.5`) |
@@ -71,6 +71,21 @@ been error-free on 40 calibration forms.
 **Nothing to train and no model to install by hand.** Our trained clause classifier and field policies are committed
 in `Project_1/hybrid/models/`. The embedding model `BAAI/bge-small-en-v1.5` is downloaded automatically on the first
 run, and the LLMs are called through your endpoint.
+
+### Embedding model (downloaded automatically, or in advance)
+| | |
+|---|---|
+| Model | [`BAAI/bge-small-en-v1.5`](https://huggingface.co/BAAI/bge-small-en-v1.5) (MIT licence), 384-dimensional sentence embeddings |
+| What is downloaded | its quantized ONNX version [`Qdrant/bge-small-en-v1.5-onnx-Q`](https://huggingface.co/Qdrant/bge-small-en-v1.5-onnx-Q), ~67 MB, via the `fastembed` package |
+| When | automatically on the first run that processes a contract (forms do not need it) |
+| Where it is stored | `<system temp folder>/fastembed_cache`; set `FASTEMBED_CACHE_PATH` to keep it somewhere permanent |
+
+To download it in advance (for example before running on a machine without internet), run from `Project_1/` after
+installing the requirements:
+```bash
+python -c "from fastembed import TextEmbedding; TextEmbedding('BAAI/bge-small-en-v1.5')"
+```
+If it cannot be downloaded, the system still runs, but every contract field goes to human review (fail-safe).
 
 ### Quick setup (about 10 minutes)
 ```bash

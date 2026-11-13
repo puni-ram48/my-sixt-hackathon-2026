@@ -16,7 +16,7 @@ cryptography==50.0.2
 charset-normalizer==3.5.2
 streamlit==1.67.0  # manual review app (review_app.py); pip pulls its own dependencies
 # Hybrid pipeline (hybrid/): local clause embeddings + clause classifier.
-# Runtime needs numpy + fastembed (ONNX, downloads BAAI/bge-small-en-v1.5 ~130 MB on first use; without it the
+# Runtime needs numpy + fastembed (ONNX, downloads Qdrant/bge-small-en-v1.5-onnx-Q, ~67 MB, on first use; without it the
 # pipeline falls back to BM25 only). scikit-learn is only needed to retrain: python -m hybrid.classify
 numpy==2.5.4
 fastembed==0.9.1
