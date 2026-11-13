@@ -8,3 +8,17 @@ referencing==0.37.0
 rpds-py==2026.9.1
 attrs==26.1.0
 pypdf==7.0.0
+pdfplumber==0.11.10
+pdfminer.six==20260107
+pypdfium2==5.15.2
+pillow==13.0.0
+cryptography==50.0.2
+charset-normalizer==3.5.2
+streamlit==1.67.0  # manual review app (review_app.py); pip pulls its own dependencies
+# Hybrid pipeline (hybrid/): local clause embeddings + clause classifier.
+# Runtime needs numpy + fastembed (ONNX, downloads BAAI/bge-small-en-v1.5 ~130 MB on first use; without it the
+# pipeline falls back to BM25 only). scikit-learn is only needed to retrain: python -m hybrid.classify
+numpy==2.5.4
+fastembed==0.9.1
+onnxruntime==1.31.1
+scikit-learn==1.9.1

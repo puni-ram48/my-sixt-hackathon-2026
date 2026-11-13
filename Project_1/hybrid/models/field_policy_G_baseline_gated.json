@@ -1,0 +1,207 @@
+{
+ "Affiliate License-Licensee": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Affiliate License-Licensor": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Agreement Date": {
+  "n": 14,
+  "correct": 12,
+  "bookable": false
+ },
+ "Anti-Assignment": {
+  "n": 17,
+  "correct": 12,
+  "bookable": false
+ },
+ "Audit Rights": {
+  "n": 3,
+  "correct": 3,
+  "bookable": false
+ },
+ "Cap On Liability": {
+  "n": 2,
+  "correct": 0,
+  "bookable": false
+ },
+ "Change Of Control": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "Competitive Restriction Exception": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Covenant Not To Sue": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Document Name": {
+  "n": 27,
+  "correct": 27,
+  "bookable": true
+ },
+ "Effective Date": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "Exclusivity": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Expiration Date": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Governing Law": {
+  "n": 21,
+  "correct": 21,
+  "bookable": true
+ },
+ "Insurance": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "Ip Ownership Assignment": {
+  "n": 1,
+  "correct": 0,
+  "bookable": false
+ },
+ "Irrevocable Or Perpetual License": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Joint Ip Ownership": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "License Grant": {
+  "n": 8,
+  "correct": 6,
+  "bookable": false
+ },
+ "Liquidated Damages": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Minimum Commitment": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "Most Favored Nation": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "No-Solicit Of Customers": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "No-Solicit Of Employees": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Non-Compete": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Non-Disparagement": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Non-Transferable License": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Notice Period To Terminate Renewal": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "Parties": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Post-Termination Services": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Price Restrictions": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Renewal Term": {
+  "n": 4,
+  "correct": 4,
+  "bookable": false
+ },
+ "Revenue/Profit Sharing": {
+  "n": 1,
+  "correct": 0,
+  "bookable": false
+ },
+ "Rofr/Rofo/Rofn": {
+  "n": 1,
+  "correct": 1,
+  "bookable": false
+ },
+ "Source Code Escrow": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Termination For Convenience": {
+  "n": 5,
+  "correct": 5,
+  "bookable": false
+ },
+ "Third Party Beneficiary": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Uncapped Liability": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Unlimited/All-You-Can-Eat-License": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Volume Restriction": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ },
+ "Warranty Duration": {
+  "n": 0,
+  "correct": 0,
+  "bookable": false
+ }
+}
