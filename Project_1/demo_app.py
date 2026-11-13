@@ -24,6 +24,7 @@ from solution.run import load_env  # noqa: E402
 
 load_env(ROOT / ".env")
 
+from demo_flow import flow_dot  # noqa: E402
 from hybrid.evaluate import scorer  # noqa: E402
 from hybrid.pipeline import CONFIGS, process  # noqa: E402
 from hybrid.retrieve import find_span  # noqa: E402
@@ -194,7 +195,9 @@ if run and rec is not None:
             st.error(f"Extraction failed: {e}")
 
 if "result" not in st.session_state:
-    st.info("Choose a document in the sidebar and press **Run extraction**.")
+    st.info("Choose a document in the sidebar and press **Run extraction**. "
+            "Below: what happens to a document, for contracts and for forms.")
+    st.graphviz_chart(flow_dot())
     st.stop()
 
 rec, line, trace, page_starts = st.session_state["result"]
@@ -207,6 +210,10 @@ if is_contract:
     text = doc_text(rec)
 
 st.subheader(rec["doc_id"])
+with st.expander("🔀 How this document went through the system (live counts)", expanded=True):
+    st.caption("Orange = the path this document took. Each check passes (yes) or stops the value "
+               "(no → REVIEW / REJECT). The numbers are the fields that stopped at each step.")
+    st.graphviz_chart(flow_dot("contract" if is_contract else "form", fields, (trace or {}).get("usage", {})))
 if not fields:
     st.warning(f"No per-field decisions: {(trace or {}).get('error') or (trace or {}).get('reason') or 'see logs'}. "
                "All fields were sent to human review.")
