@@ -120,6 +120,12 @@ all form fields to a human), `LLM_VERIFY_MODEL`, `HYBRID_EMBED_MODEL`.
    - Use reader B's value when reader A misses one (A missed 229 values that B found), with B checked against the
      text layer.
    - Calibrate on all 312 / 127 training documents instead of 60 / 40, so more fields can qualify for trust.
+     **This is the main bottleneck, measured.** Many correct contract values go to review as "clause type uncertain"
+     because a clause unit mixes several short sub-clauses (e.g. an insurance sentence scored 0.54 on its own but 0.05
+     inside a chunk with counterparts and notices). We tested scoring the evidence sentence itself (the higher of the
+     two scores): it removed 8 of 78 (held-out) and 20 of 112 (public-test) "uncertain/wrong clause" stops. But
+     bookings stayed at 11 and 11, because those values then stop at "field not trusted". So we kept the validated
+     system; more calibration data per field is what unlocks coverage.
 2. **Fix incomplete contract answers.** Ask the extractor for *all* passages of a clause field (the main error type),
    then re-learn which fields become bookable.
 3. **Speed.** Embed clauses in a separate process pool. Documents already run 4 at a time; the embedding step is
