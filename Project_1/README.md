@@ -183,6 +183,7 @@ All 12 contract configs and both forms configs, with threshold sweeps and per-ru
 | `solution/` | original baseline, kept for comparison (`python -m solution.run`) |
 | `results/` | method comparisons and reports |
 | `tests/` | offline tests (`python -m unittest tests.test_hybrid tests.test_verify`) |
+| `demo_app.py` | **demo dashboard**: upload a contract or form, see decisions and citations from the original document (`streamlit run demo_app.py`) |
 | `review_app.py` | optional Streamlit app for reviewing answers by hand (`pip install streamlit==1.67.0` first) |
 | `1_download.sh`, `2_prepare.py`, `selection.tsv`, `3_baseline.py`, `5_score.py`, `test_score.py`, `setup.sh` | organiser starter kit (data download, no-AI reference, scorer) |
 

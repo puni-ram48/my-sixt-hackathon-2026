@@ -1,7 +1,7 @@
 # Teach a machine to say "I don't know"
 **Team Zero to SIXTy · SIXT Hackathon 2026 · Project 1: Structured extraction from documents**
 
-![Our Solution Concept - Team Brainstorming Board](image_0.jpg)
+![Our Solution Concept - Team Brainstorming Board](concept_board.jpg)
 
 People type contract and form data into SIXT's systems by hand. An AI can do it in seconds, but one confidently wrong
 value costs far more than a minute of human time. In the hackathon's cost model a wrong booked value costs **100** and
@@ -155,6 +155,18 @@ python 5_score.py --gold <input_with_gold.jsonl> --pred <output.jsonl> --thresho
 - **Decision log** `<output>.trace.jsonl`: for every field, the decision (BOOK / REVIEW / REJECT / ABSTAIN) and why.
 - **Routing:** contracts and forms are routed automatically, and 4 documents run in parallel. Expect about 10–45 s of
   LLM time per document: 1 call per contract, 2 per form.
+
+### Demo app: upload a document and see the evidence
+An interactive dashboard runs the same submitted system. It shows every field's decision (BOOK / REVIEW / REJECT /
+ABSTAIN), the reason, and a **citation from the original document**:
+- **contracts:** the passage with the value highlighted, plus page and character position;
+- **forms:** the PDF page with a box around the printed value, or around its label for scans and image-filled forms.
+
+Pick a dataset document to compare against the gold labels, or upload your own contract (PDF/TXT) or form (PDF).
+```bash
+pip install streamlit==1.67.0        # optional, not in requirements.txt
+streamlit run demo_app.py            # from Project_1/, with .env filled in; opens http://localhost:8501
+```
 
 ### Troubleshooting
 | Symptom | Cause and fix |

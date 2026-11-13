@@ -86,6 +86,8 @@ def _text_pypdf(path: Path) -> str:
 
 def doc_text(rec: dict) -> str | None:
     """Full text of the document, or None if we cannot read any text from it."""
+    if rec.get("text"):  # supplied directly, e.g. a contract uploaded in demo_app.py
+        return rec["text"]
     if rec["source_dataset"] == "cuad":
         return cuad_text(rec["doc_id"])
     path = source_path(rec)
