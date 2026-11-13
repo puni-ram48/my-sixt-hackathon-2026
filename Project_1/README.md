@@ -109,7 +109,7 @@ A field is **accepted** if its value is non-null and `confidence >= threshold` (
 | What | Where |
 | --- | --- |
 | Your code, with `run_hidden.sh` calling your extractor | `Project_1/` |
-| `SUBMISSION.md`: approach, results, how to run, "Models and why" table, **your threshold** ([template](../SUBMISSION_TEMPLATE.md)) | `Project_1/` |
+| `SUBMISSION.md`: approach, results, how to run, "Models and why" table, **your threshold** ([ours](SUBMISSION.md)) | `Project_1/` |
 | `EDA.md`: a short look at the data, with real numbers | `Project_1/` |
 | A 1-minute video or up to 5 slides | `submission/demo.mp4` or `submission/slides.pdf` |
 
