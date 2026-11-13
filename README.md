@@ -57,15 +57,48 @@ been error-free on 40 calibration forms.
 | [submission/](submission/) | Slides (`slides.pdf`) |
 
 ## Run it
+**No training and no manual model installation needed.** Everything the system learned is in the repo; the rest is
+installed or downloaded automatically.
+
+| Component | Where it comes from |
+|---|---|
+| Clause classifier + field policies (our trained parts) | committed in `Project_1/hybrid/models/`, loaded automatically |
+| Python packages | `pip install -r requirements.txt` (done by `setup.sh`) |
+| Embedding model `BAAI/bge-small-en-v1.5` (~130 MB) | downloaded automatically on the first run, then cached; needs internet once |
+| LLMs (Claude Sonnet 5.5, GPT-5.5) | API calls to the endpoint you put in `.env` |
+| Datasets | downloaded by `1_download.sh` + `2_prepare.py` (not redistributed in this repo) |
+
+**1. Set up (once, about 10 minutes, Python 3.11+):**
 ```bash
 cd Project_1
-python -m venv .venv && . .venv/bin/activate          # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-bash 1_download.sh --accept-licenses && python 2_prepare.py
-cp .env.example .env                                   # add LLM_BASE_URL, LLM_API_KEY, LLM_MODEL (never commit it)
-bash run_hidden.sh <input.jsonl> <output.jsonl>        # the submission entry point
-python 5_score.py --gold data/unified/dev.jsonl --pred <output.jsonl> --threshold 0.95
+bash setup.sh --accept-licenses      # creates .venv, installs requirements, creates .env, downloads and prepares the data
 ```
+Then open `Project_1/.env` and fill in `LLM_BASE_URL` and `LLM_API_KEY` (`LLM_MODEL=claude-sonnet-5.5` is pre-filled).
+Never commit `.env`. On Windows without bash `.venv/bin`, `run_hidden.sh` also finds `.venv\Scripts\python.exe`.
+
+**2. Try it on 3 documents (about 2 minutes):**
+```bash
+head -n 3 data/unified/test_public.jsonl > sample.jsonl
+bash run_hidden.sh sample.jsonl sample_out.jsonl
+python 5_score.py --gold sample.jsonl --pred sample_out.jsonl --threshold 0.95
+```
+
+**3. Run on any test file** (same JSONL format as `data/unified/*.jsonl`; source files under `data/raw/`):
+```bash
+bash run_hidden.sh <input.jsonl> <output.jsonl>
+```
+It writes two files:
+- `<output>.jsonl`: one line per document, `{"doc_id", "fields": {name: {"value", "confidence"}}}`. A field counts as
+  booked when its confidence is ≥ 0.95, our declared threshold.
+- `<output>.trace.jsonl`: the decision and reason for every field (BOOK / REVIEW / REJECT / ABSTAIN), so any value
+  can be audited.
+
+Contracts and forms are routed automatically. Four documents run in parallel; a document takes about 10–45 s of
+LLM time. If the embedding model cannot be downloaded, contract fields fail safe: they go to human review rather
+than being booked with fewer checks.
+
+Reproducing our experiments (training the classifier, calibration, all method comparisons) is optional; the commands
+are in [Project_1/README.md, "Reproduce the evaluation"](Project_1/README.md#reproduce-the-evaluation).
 
 ## Repository layout
 ```

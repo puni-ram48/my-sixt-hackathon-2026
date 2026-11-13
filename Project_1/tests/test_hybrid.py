@@ -122,6 +122,25 @@ class DecisionTests(unittest.TestCase):
         self.assertEqual(d.action, "BOOK")
 
 
+class ClassifierMissingTests(unittest.TestCase):
+    def test_contract_fields_go_to_review_when_classifier_is_unavailable(self):
+        from unittest import mock
+        from hybrid import pipeline
+        from hybrid.retrieve import DocIndex as RealIndex
+
+        value = "This Agreement is governed by the laws of the State of Alpha."
+        rec = {"doc_id": "cuad:x", "source_dataset": "cuad",
+               "schema": {"properties": {"Governing Law": {"type": "string", "x-normalizer": "span"}}}}
+        ex = {"Governing Law": Extraction("Governing Law", value=value, confidence=0.99, supported=True)}
+        with mock.patch.object(pipeline, "doc_text", return_value=TEXT), \
+             mock.patch.object(pipeline, "DocIndex", lambda d, t, use_models=True: RealIndex(d, t, use_models=False)), \
+             mock.patch.object(pipeline, "_baseline_extractions", return_value=(ex, [])), \
+             mock.patch("hybrid.field_policy.load", return_value={"Governing Law": {"n": 20, "correct": 20, "bookable": True}}):
+            line, trace = pipeline.process(rec, pipeline.CONFIGS["FINAL"])
+        self.assertLess(line["fields"]["Governing Law"]["confidence"], 0.95)  # not booked
+        self.assertEqual(trace["fields"]["Governing Law"]["decision"], "REVIEW")
+
+
 class OutOfScopeTests(unittest.TestCase):
     def test_non_contract_records_go_to_review_without_llm(self):
         import os

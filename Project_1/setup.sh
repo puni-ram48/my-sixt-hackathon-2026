@@ -12,4 +12,4 @@ pip install -q --upgrade pip && pip install -q -r requirements.txt
 [ -f data/unified/dev.jsonl ] || { bash 1_download.sh "$@"; python 2_prepare.py; }
 python 3_baseline.py --train data/unified/dev.jsonl --target data/unified/test_public.jsonl --out preds.jsonl
 python 5_score.py --gold data/unified/test_public.jsonl --pred preds.jsonl --threshold 0.95 | tail -8
-echo; echo "Ready. Activate with: . .venv/bin/activate. Next: read 4_extract_example.py and build on it."
+echo; echo "Ready. Fill in LLM_BASE_URL and LLM_API_KEY in .env, then run: bash run_hidden.sh <input.jsonl> <output.jsonl>"

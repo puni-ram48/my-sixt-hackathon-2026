@@ -123,6 +123,11 @@ def process(rec: dict, cfg: Config, pool=None) -> tuple[dict, dict]:
         if table is None:
             log.warning("field policy %s not fitted: every field goes to review", cfg.field_policy)
         policy = replace(policy, field_policy=table or {})
+    if policy.use_classifier and idx.proba is None:
+        # Fail safe: without embeddings (fastembed missing or model download blocked) the clause-type and
+        # completeness checks cannot run. Never book with fewer checks than were validated: send to review.
+        log.warning("%s: clause classifier unavailable, every contract field goes to human review", rec["doc_id"])
+        policy = replace(policy, field_policy={})
 
     grounder = Grounder(text)
     fields, trace_fields = {}, {}

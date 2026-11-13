@@ -1,6 +1,6 @@
-# Project 1: OPTIONAL packages. Steps 1, 2, 3 and 5 run on the Python 3.11+ standard library alone.
-#   pip install -r requirements.txt
-# jsonschema: adds the schema-validity line to 5_score.py. pypdf: lets 4_extract_example.py read PDF text.
+# Project 1: REQUIRED for our submitted system (hybrid/, run_hidden.sh).  pip install -r requirements.txt
+# (The organiser's starter steps 1, 2, 3 and 5 also run on the Python 3.11+ standard library alone.)
+# jsonschema: schema-validity line in 5_score.py. pypdf / pdfplumber / pypdfium2: read and render PDFs (forms).
 # Versions are pinned, including dependencies. Checked with pip-audit on 2026-11-09: no known vulnerabilities.
 jsonschema==4.26.0
 jsonschema-specifications==2025.9.1
