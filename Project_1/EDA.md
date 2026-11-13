@@ -112,6 +112,59 @@ Measured later on held-out data (CUAD dev-val, 20 contracts and 820 fields; Extr
   layer, all correct. When the readers disagreed, 39 of 46 times it was a real error. Issue 2 (filled values missing
   from the text layer) also showed up here: the text-layer check rejected 43 correct values whose printed form
   differed from the reading.
+- **Gold labels can be wrong, and the scorer counts them.** The only value our system booked that did not match the
+  gold, across 40 public-test documents (99 booked), is a gold-label error. See section 9.
 - **New finding: the main booked error on contracts was an incomplete answer, not the wrong clause.** The gold for a
   clause field lists every passage that states it (often 2–5), and the model quoted one. This is the multi-answer
   quirk from section 4: it affects scoring of almost every clause field, not just Parties.
+
+## 9. A gold-label error, and a deterministic way to check gold against the document
+
+**The case.** On the public test, our system booked one value that the scorer counts as wrong:
+
+| | |
+|---|---|
+| Document | `extractbench:short/ROGER-WINFIELD-SCOTT-FOUNDATION-INC-2009-580655183-p0024` (one-page 1099-type form) |
+| Field | `recipient_address` |
+| Gold evidence box | page 1, bbox `[0.7194, 0.1414, 0.146, 0.0385]` (x, y, width, height as page fractions) |
+| **Printed in that box** (PDF text layer) | `3583 CASTLEHILL WAY` / `TUCKER, GA 30084`; the word `CASTLEHILL` sits at x 599–659, y 90 on the 794 × 624 page, inside the gold box |
+| Rendered page image of the box | `3583 CASTLEHILL WAY`, no space (checked by rendering the box at 4× and by eye, and confirmed by a team member opening the PDF) |
+| Our booked value | `3583 CASTLEHILL WAY, TUCKER, GA 30084` (reader A, Claude, 0.96; reader B, GPT-5.5, 0.99; both agree; found verbatim on the page) |
+| Gold | `3583 CASTLE HILL WAY, TUCKER, GA 30084` |
+
+The document prints CASTLEHILL; the gold label inserts a space. Our value is a faithful copy of the document. The
+scorer compares strings after collapsing whitespace, so it cannot equate the two and counts the value as a wrong
+booking (cost 100). We did not change anything to "fix" this case: that would be tuning on public-test data.
+
+**The deterministic check** (`hybrid/gold_check.py`, no LLM and no judgement). For a document and field, it reads
+the PDF's own words inside the gold evidence box and compares them with the gold value and with a prediction:
+`exact` (same words in order, case and punctuation ignored), `spacing_only` (same letters and digits, different
+spaces) or `different`. It can also save the box as an image (`--crop`).
+
+```bash
+python -m hybrid.gold_check --data data/unified/test_public.jsonl \
+  --doc "extractbench:short/ROGER-WINFIELD-SCOTT-FOUNDATION-INC-2009-580655183-p0024" \
+  --field recipient_address --pred "3583 CASTLEHILL WAY, TUCKER, GA 30084" --crop castlehill.png
+# printed_in_box: "3583 CASTLEHILL WAY TUCKER, GA 30084"
+# gold_vs_printed: spacing_only   pred_vs_printed: exact   pred_vs_gold: spacing_only
+```
+
+**How common is this?** `python -m hybrid.gold_check --survey` checks every non-null text label of the ExtractBench
+dev set whose gold box contains printed text (83 documents, 868 labels; another 1,824 labels have no printed text in
+the box, because they are scans or image-only values):
+
+| Gold vs printed text in its own box | Labels | Share |
+|---|---:|---:|
+| exact | 733 | 84.4% |
+| spacing only | 6 | 0.7% |
+| different | 129 | 14.9% |
+
+Spacing-only differences are rare, and they go both ways. Some are gold normalisations (tax ids printed as
+`80-0294810`, stored as `800294810`); some are text-layer artefacts (`SUNTRUSTBANK` in the text layer, `SUNTRUST BANK`
+in the gold). "Different" mostly means the value is not cleanly in the text layer (split words, filled values drawn
+as images; see issue 2), not that the gold is wrong. So the text layer is evidence, not ground truth, and a mismatch
+needs a look at the rendered image before calling the gold wrong, as we did here.
+
+**Why it matters.** Under a 100:1 cost, one label error among 99 correct bookings turns a +5.4% saving into −0.1%.
+Gold noise is a floor on measured precision that no extraction method can get below, so a system aiming at 99%
+precision should expect occasional "errors" that are really label errors.

@@ -10,9 +10,13 @@ A wrong booked value costs 100, a review costs 1, and net saving is measured aga
 | CUAD contracts | **FINAL**: baseline extraction + evidence gates | 11 / 11 correct | 0 | **+1.3%** |
 | ExtractBench forms | **forms_final**: two independent vision readers + learned field policy | 81 / 81 correct | 0 | **+5.2%** |
 | Both (submitted system, official scorer) | | 92 / 92 correct | 0 | **+3.9%** |
-| **Untouched public test** (32 docs) | same system via `run_hidden.sh` | **82 / 82 correct** | **0** | **+5.7%** |
+| **Untouched public test** (40 docs) | same system via `run_hidden.sh` | **98 / 99 match gold** | **1\*** | **−0.1%** |
 
-**Why these won:** they are the only methods that never booked a wrong value. Under a 100:1 cost, one wrong booking
+\* The one mismatch is a confirmed gold-label error: the form prints `3583 CASTLEHILL WAY`, our readers copied it
+exactly, and the gold says `CASTLE HILL` (`../EDA.md` section 9). Counted by the scorer, it makes the result break-even;
+with the label corrected, 99 of 99 are right (+5.4%).
+
+**Why these won:** they are the only methods that never booked a wrong *reading* of the document. Under a 100:1 cost, one wrong booking
 cancels a hundred correct ones, so the winner is the method that *knows when it is right*, not the one that answers most.
 
 ## Data used (no overlap between roles)
@@ -21,7 +25,7 @@ cancels a hundred correct ones, so the winner is the method that *knows when it 
 | Train the clause classifier | dev-train contracts 0–159 (31,969 clauses) | – (nothing trained) |
 | Calibrate (learn which fields to trust) | dev-train contracts 160–219 (60) | dev-train forms 0–39 (40) |
 | Held-out evaluation and method comparison | dev-val, first 20 contracts (820 fields) | dev-val, 32 forms (1,564 fields) |
-| Untouched final check | test_public, first 20 contracts | test_public, first 12 forms |
+| Untouched final check | test_public, first 24 contracts | test_public, first 16 forms |
 
 Dev documents are split 4:1 into train/val by a hash of the document id (`hybrid/split.py`).
 

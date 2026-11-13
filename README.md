@@ -9,15 +9,21 @@ a human review costs **1**, so automation only pays off if booked values are rig
 supports it; everything else goes to a human. The model's own confidence is the last check, never the main one.
 
 ## Results
-Untouched public-test check: `run_hidden.sh` on 20 contracts and 12 forms, gold labels removed, scored with the
+Untouched public-test check: `run_hidden.sh` on 24 contracts and 16 forms, gold labels removed, scored with the
 official `5_score.py` at our declared threshold **0.95**. This data was never used for any choice.
 
-| | Booked automatically | Correct | Wrong | Net saving vs. all-manual |
-|---|---:|---:|---:|---:|
-| Contracts (CUAD) | 9 | 9 | 0 | +1.1% |
-| Forms and scans (ExtractBench) | 73 | 73 | 0 | +11.8% |
-| **Total (1,439 fields)** | **82** | **82** | **0** | **+5.7%** |
-| *For comparison: original pipeline on held-out contracts, threshold 0.9* | *52* | *40* | *12* | ***−140%*** |
+| | Booked automatically | Match gold | Don't match gold | Precision | Net saving vs. all-manual |
+|---|---:|---:|---:|---:|---:|
+| Contracts (CUAD, 24) | 11 | 11 | 0 | 100% | +1.1% |
+| Forms and scans (ExtractBench, 16) | 88 | 87 | 1\* | 98.9% | −1.4% |
+| **Total (40 documents, 1,845 fields)** | **99** | **98** | **1\*** | **99.0%** | **−0.1%** |
+| *For comparison: original pipeline on held-out contracts, threshold 0.9* | *52* | *40* | *12* | *76.9%* | ***−140%*** |
+
+\* **A gold-label error, not a reading error.** The form prints `3583 CASTLEHILL WAY`; both of our readers copied
+exactly that, but the gold label says `CASTLE HILL`. We confirmed it in the PDF's text layer, in the rendered image
+and by hand ([EDA, section 9](Project_1/EDA.md#9-a-gold-label-error-and-a-deterministic-way-to-check-gold-against-the-document)).
+The scorer still counts it, and one counted error costs as much as 100 correct bookings: with it the result is
+break-even (−0.1%); without it, all 99 bookings are right (+5.4%). We report the scorer's number.
 
 Held-out dev-val (52 documents, 2,384 fields): 92 of 92 booked values correct, 0 hallucinations, net saving +3.9%.
 

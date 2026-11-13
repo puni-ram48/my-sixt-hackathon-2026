@@ -216,16 +216,19 @@ mostly nested tables and look-alike handwriting. The field policy removes them.
 because no wrong value was booked.
 
 ### Untouched check on public-test data (never used for any choice)
-`bash run_hidden.sh` on the first 20 contracts and 12 forms of `test_public.jsonl`, with gold removed, then
-`5_score.py --threshold 0.95` (32 documents, 1,439 fields, 23 minutes end to end, no failures):
+`bash run_hidden.sh` on the first 24 contracts and 16 forms of `test_public.jsonl`, with gold removed, then
+`5_score.py --threshold 0.95` (40 documents, 1,845 fields, no failures):
 
-| dataset | fields | booked | correct | wrong | hallucinated | net saving |
-|---|---:|---:|---:|---:|---:|---:|
-| CUAD contracts (20) | 820 | 9 | 9 | 0 | 0 | +1.1% |
-| ExtractBench forms (12) | 619 | 73 | 73 | 0 | 0 | +11.8% |
-| **all** | **1,439** | **82** | **82** | **0** | **0** | **+5.7%** |
+| dataset | fields | booked | match gold | don't match | hallucinated | precision | net saving |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| CUAD contracts (24) | 984 | 11 | 11 | 0 | 0 | 100% | +1.1% |
+| ExtractBench forms (16) | 861 | 88 | 87 | 1\* | 0 | 98.9% | −1.4% |
+| **all** | **1,845** | **99** | **98** | **1\*** | **0** | **99.0%** | **−0.1%** |
 
-Precision 100% (scorer band 99%), coverage 10.9%. The numbers are in line with dev-val, so the method was not tuned to it.
+\* A gold-label error: the form prints `3583 CASTLEHILL WAY` and our readers copied it exactly, but the gold says
+`CASTLE HILL` (verified in the text layer, the rendered image and by hand; `EDA.md` section 9,
+`python -m hybrid.gold_check`). The scorer counts it, so the official result is break-even; with the label corrected,
+all 99 bookings are right (+5.4%). The first 32 documents alone gave 82 of 82 (+5.7%); we report all 40.
 
 **What we learned**
 1. The main booked error was not the wrong clause but an *incomplete* answer: the gold lists every passage (2–5), and

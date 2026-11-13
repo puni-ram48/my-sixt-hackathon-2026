@@ -34,7 +34,10 @@ def main(argv=None) -> int:
     ap.add_argument("--trace", help="write per-field decision traces here (JSONL)")
     ap.add_argument("--limit", type=int)
     ap.add_argument("--resume", action="store_true")
-    ap.add_argument("--workers", type=int, default=4, help="parallel LLM calls")
+    ap.add_argument("--workers", type=int, default=4, help="parallel LLM calls inside one document")
+    ap.add_argument("--doc-workers", type=int, default=4,
+                    help="documents processed in parallel (each is independent, so results do not change; "
+                         "LLM waiting time overlaps). 1 = one document at a time")
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO,
@@ -51,23 +54,29 @@ def main(argv=None) -> int:
         done = {json.loads(line)["doc_id"] for line in out.open(encoding="utf-8") if line.strip()}
     mode = "a" if args.resume else "w"
     trace_f = open(args.trace, mode, encoding="utf-8") if args.trace else None
-    with out.open(mode, encoding="utf-8") as f, ThreadPoolExecutor(args.workers) as pool:
-        for i, rec in enumerate(records):
-            if rec["doc_id"] in done:
-                continue
-            try:
-                line, trace = process(rec, cfg, pool)
-            except Exception as e:  # last resort: never lose a document, send it to review
-                log.exception("%s failed: %s", rec["doc_id"], e)
-                props = (rec.get("schema") or {}).get("properties", {})
-                line, trace = {"doc_id": rec["doc_id"], "fields": {n: {"value": None} for n in props}}, None
+    todo = [rec for rec in records if rec["doc_id"] not in done]
+
+    def one(rec):
+        try:
+            return process(rec, cfg, pool)
+        except Exception as e:  # last resort: never lose a document, send it to review
+            log.exception("%s failed: %s", rec["doc_id"], e)
+            props = (rec.get("schema") or {}).get("properties", {})
+            return {"doc_id": rec["doc_id"], "fields": {n: {"value": None} for n in props}}, None
+
+    # Two separate pools: documents in parallel, and LLM calls inside a document. Using one pool for both could
+    # deadlock (a document waiting for calls that cannot start). Executor.map yields results in input order,
+    # so the output file keeps the same order as the input.
+    with out.open(mode, encoding="utf-8") as f, ThreadPoolExecutor(args.workers) as pool, \
+            ThreadPoolExecutor(max(1, args.doc_workers)) as doc_pool:
+        for i, (rec, (line, trace)) in enumerate(zip(todo, doc_pool.map(one, todo)), start=1):
             f.write(json.dumps(line, ensure_ascii=False) + "\n")
             f.flush()
             if trace_f and trace:
                 trace_f.write(json.dumps(trace, ensure_ascii=False) + "\n")
                 trace_f.flush()
             booked = sum(1 for t in (trace or {}).get("fields", {}).values() if t["decision"] == "BOOK")
-            print(f"[{i + 1}/{len(records)}] {rec['doc_id']}  booked={booked}", file=sys.stderr)
+            print(f"[{i}/{len(todo)}] {rec['doc_id']}  booked={booked}", file=sys.stderr)
     if trace_f:
         trace_f.close()
     return 0

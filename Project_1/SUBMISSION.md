@@ -64,9 +64,13 @@ values are null.
 Both datasets together (52 documents, 2,384 fields), official `5_score.py --threshold 0.95`: **precision 100%,
 0 hallucinations, coverage 7.3%, net saving +3.9%**, identical at an error cost of 20, 100 or 500.
 
-**Untouched public-test check** (first 20 contracts and 12 forms of `test_public.jsonl`; `run_hidden.sh` with gold
-removed; never used for any choice): **82 booked, 82 correct, 0 hallucinations, precision 100%, coverage 10.9%,
-net saving +5.7%** (contracts +1.1%, forms +11.8%).
+**Untouched public-test check** (first 24 contracts and 16 forms of `test_public.jsonl`; `run_hidden.sh` with gold
+removed; never used for any choice): **99 booked, 98 match the gold, 0 hallucinations, precision 99.0%, net saving
+−0.1% (break-even)** (contracts 11/11, +1.1%; forms 87/88, −1.4%). The one mismatch is a **gold-label error**: the
+form prints `3583 CASTLEHILL WAY`, both readers copied it exactly, and the gold says `CASTLE HILL`. We verified it in
+the text layer, in the rendered image and by hand (`EDA.md` section 9; deterministic check: `python -m hybrid.gold_check`).
+The scorer counts it, and at 100:1 one counted error offsets about 100 correct bookings. With the label corrected,
+99 of 99 are right (+5.4%). We report the scorer's number.
 
 **What did not work, honestly:**
 - Better retrieval raised raw accuracy (79.5% vs 77.4%) but not booking safety.
@@ -81,7 +85,11 @@ net saving +5.7%** (contracts +1.1%, forms +11.8%).
   99% target.
 - **Truncation.** The contract extractor reads the first 60,000 characters; 28% of contracts are longer.
 - **New templates.** Forms of a type never seen in calibration go entirely to review.
-- **Runtime.** Documents are processed one at a time (32 documents took 23 minutes).
+- **Label noise.** Gold labels are not always right (one confirmed case above; 0.7% of ExtractBench dev text labels
+  differ from the printed text only in spacing). At a 99% precision target, rare label errors decide whether the
+  measured result is above or below break-even.
+- **Runtime.** Four documents run in parallel (`--doc-workers 4`, about 1.8× faster; predictions are identical to
+  a sequential run). Local CPU embedding still runs one document at a time.
 
 Details, per-rule evidence and all 12 contract configurations: `results/RESULTS.md`. Data analysis: `EDA.md`.
 
@@ -114,7 +122,8 @@ all form fields to a human), `LLM_VERIFY_MODEL`, `HYBRID_EMBED_MODEL`.
    - Calibrate on all 312 / 127 training documents instead of 60 / 40, so more fields can qualify for trust.
 2. **Fix incomplete contract answers.** Ask the extractor for *all* passages of a clause field (the main error type),
    then re-learn which fields become bookable.
-3. **Speed.** Process documents in parallel and cache embeddings per document; this should give a 3–4× faster run.
+3. **Speed.** Embed clauses in a separate process pool. Documents already run 4 at a time; the embedding step is
+   now the bottleneck.
 4. **How SIXT could use it.**
    - Start in shadow mode: the system books nothing, humans see its suggestions and decision reasons, and every
      correction becomes calibration data.
