@@ -53,49 +53,100 @@ been error-free on 40 calibration forms.
 | [**Project_1/SUBMISSION.md**](Project_1/SUBMISSION.md) | Official submission: approach, models and why, threshold, results, how to run, next steps |
 | [Project_1/results/RESULTS.md](Project_1/results/RESULTS.md) | All 12 contract methods and both form methods compared; why the winners won |
 | [Project_1/EDA.md](Project_1/EDA.md) | Data analysis: what the documents look like, issues found, what the experiments answered |
-| [Project_1/README.md, "Our solution"](Project_1/README.md#our-solution-evidence-gated-hybrid-extraction-hybrid) | Architecture, examples, full commands to reproduce |
+| [Project_1/README.md](Project_1/README.md) | Technical write-up: what we did step by step, both methods, decision rules, results, code map, reproduce |
 | [submission/](submission/) | Slides (`slides.pdf`) |
 
-## Run it
-**No training and no manual model installation needed.** Everything the system learned is in the repo; the rest is
-installed or downloaded automatically.
+## Setup and run (step by step)
 
-| Component | Where it comes from |
+### What you need
+| Requirement | Details |
 |---|---|
-| Clause classifier + field policies (our trained parts) | committed in `Project_1/hybrid/models/`, loaded automatically |
-| Python packages | `pip install -r requirements.txt` (done by `setup.sh`) |
-| Embedding model `BAAI/bge-small-en-v1.5` (~130 MB) | downloaded automatically on the first run, then cached; needs internet once |
-| LLMs (Claude Sonnet 5.5, GPT-5.5) | API calls to the endpoint you put in `.env` |
-| Datasets | downloaded by `1_download.sh` + `2_prepare.py` (not redistributed in this repo) |
+| Python | 3.11 or newer (we used 3.12.3) |
+| Shell | `bash` (on Windows: Git Bash) and `git` |
+| Internet | once, to install packages, download the data (~60 MB) and the embedding model (~130 MB) |
+| **LLM endpoint + API key** | any OpenAI-compatible endpoint (`/chat/completions`) that serves the two models below; the hackathon key works |
+| **Model 1: `claude-sonnet-5.5`** | contract extractor and first form reader (set as `LLM_MODEL`) |
+| **Model 2: `gpt-5.5`** | second, independent form reader (`FORMS_SECOND_MODEL`, default `gpt-5.5`) |
 
-**1. Set up (once, about 10 minutes, Python 3.11+):**
+**Nothing to train and no model to install by hand.** Our trained clause classifier and field policies are committed
+in `Project_1/hybrid/models/`. The embedding model `BAAI/bge-small-en-v1.5` is downloaded automatically on the first
+run, and the LLMs are called through your endpoint.
+
+### Quick setup (about 10 minutes)
 ```bash
-cd Project_1
-bash setup.sh --accept-licenses      # creates .venv, installs requirements, creates .env, downloads and prepares the data
+git clone https://github.com/puni-ram48/my-sixt-hackathon-2026.git
+cd my-sixt-hackathon-2026/Project_1
+bash setup.sh --accept-licenses     # makes .venv, installs requirements, creates .env, downloads + prepares the data
 ```
-Then open `Project_1/.env` and fill in `LLM_BASE_URL` and `LLM_API_KEY` (`LLM_MODEL=claude-sonnet-5.5` is pre-filled).
-Never commit `.env`. On Windows without bash `.venv/bin`, `run_hidden.sh` also finds `.venv\Scripts\python.exe`.
+Then put your endpoint and key in `Project_1/.env` (see below).
 
-**2. Try it on 3 documents (about 2 minutes):**
+### Or step by step
 ```bash
-head -n 3 data/unified/test_public.jsonl > sample.jsonl
+cd my-sixt-hackathon-2026/Project_1
+python -m venv .venv
+source .venv/bin/activate            # Windows (Git Bash): source .venv/Scripts/activate
+pip install -r requirements.txt
+bash 1_download.sh --accept-licenses # CUAD + ExtractBench into data/raw/ (licences: CC BY 4.0, Apache-2.0)
+python 2_prepare.py                  # builds data/unified/dev.jsonl and test_public.jsonl
+cp .env.example .env                 # then fill in the values below
+```
+
+### LLM access: `Project_1/.env`
+`.env` is git-ignored; never commit it. `Project_1/.env.example` contains (comments on their own lines; do not
+put comments after a value):
+```bash
+# Copy to .env (git-ignored, never commit it). Endpoint URL and key: from your LLM provider (hackathon: handed out on site).
+LLM_BASE_URL=
+LLM_API_KEY=
+# Extractor for contracts and first reader for forms (what we used and validated):
+LLM_MODEL=claude-sonnet-5.5
+# Optional. Second, independent reader for forms (default gpt-5.5):
+# FORMS_SECOND_MODEL=gpt-5.5
+# Optional. Send every form field to a human instead of the forms pipeline:
+# HYBRID_NONCONTRACT=review
+```
+| Variable | Required | Meaning |
+|---|---|---|
+| `LLM_BASE_URL` | yes | endpoint base URL; the code calls `<LLM_BASE_URL>/chat/completions` |
+| `LLM_API_KEY` | yes | sent as `Authorization: Bearer <key>` |
+| `LLM_MODEL` | yes | `claude-sonnet-5.5` (what we validated) |
+| `FORMS_SECOND_MODEL` | no | default `gpt-5.5`; must be a different model from `LLM_MODEL` |
+| `HYBRID_NONCONTRACT` | no | `forms_final` (default), `review`, or `baseline` (original pipeline) |
+
+### Check the setup (no API calls)
+```bash
+python -m unittest tests.test_hybrid tests.test_verify     # expected: OK
+```
+
+### Try it on 3 documents (about 2 minutes, 5 API calls): 1 contract + 2 forms
+```bash
+{ grep '"doc_id": "cuad:' data/unified/test_public.jsonl | head -n 1
+  grep '"doc_id": "extractbench:' data/unified/test_public.jsonl | head -n 2; } > sample.jsonl
 bash run_hidden.sh sample.jsonl sample_out.jsonl
 python 5_score.py --gold sample.jsonl --pred sample_out.jsonl --threshold 0.95
 ```
 
-**3. Run on any test file** (same JSONL format as `data/unified/*.jsonl`; source files under `data/raw/`):
+### Run on a test set
 ```bash
 bash run_hidden.sh <input.jsonl> <output.jsonl>
+python 5_score.py --gold <input_with_gold.jsonl> --pred <output.jsonl> --threshold 0.95   # if you have gold labels
 ```
-It writes two files:
-- `<output>.jsonl`: one line per document, `{"doc_id", "fields": {name: {"value", "confidence"}}}`. A field counts as
-  booked when its confidence is ≥ 0.95, our declared threshold.
-- `<output>.trace.jsonl`: the decision and reason for every field (BOOK / REVIEW / REJECT / ABSTAIN), so any value
-  can be audited.
+- **Input:** the organisers' format, one JSON per line (`doc_id`, `pages`, `schema`, and `gold` if available), with
+  source files under `Project_1/data/raw/`.
+- **Output** `<output>.jsonl`: one line per document, `{"doc_id": ..., "fields": {name: {"value": ..., "confidence": ...}}}`.
+  **Declared threshold: 0.95.** A field is booked when its confidence is ≥ 0.95; `null` means "sent to a human".
+- **Decision log** `<output>.trace.jsonl`: for every field, the decision (BOOK / REVIEW / REJECT / ABSTAIN) and why.
+- **Routing:** contracts and forms are routed automatically, and 4 documents run in parallel. Expect about 10–45 s of
+  LLM time per document: 1 call per contract, 2 per form.
 
-Contracts and forms are routed automatically. Four documents run in parallel; a document takes about 10–45 s of
-LLM time. If the embedding model cannot be downloaded, contract fields fail safe: they go to human review rather
-than being booked with fewer checks.
+### Troubleshooting
+| Symptom | Cause and fix |
+|---|---|
+| `LLM_BASE_URL, LLM_API_KEY and LLM_MODEL must be set` | fill in `Project_1/.env` |
+| HTTP 429 in the log | rate limit; the client retries automatically. If it keeps failing, those fields go to review (safe) |
+| `setup.sh` fails at `.venv/bin/activate` (Windows) | use the step-by-step commands with `source .venv/Scripts/activate` |
+| "embeddings unavailable" / "clause classifier unavailable" warning | the embedding model could not be downloaded; contract fields then go to human review (fail-safe). Allow access to huggingface.co once |
+| Form fields all `null` | `gpt-5.5` is not available on your endpoint: set `FORMS_SECOND_MODEL` to another model, or accept review |
 
 Reproducing our experiments (training the classifier, calibration, all method comparisons) is optional; the commands
 are in [Project_1/README.md, "Reproduce the evaluation"](Project_1/README.md#reproduce-the-evaluation).

@@ -265,6 +265,7 @@ def process(rec: dict, cfg: FormsConfig) -> tuple[dict, dict]:
     path = source_path(rec)
     null_line = {"doc_id": rec["doc_id"], "fields": {f.name: {"value": None, "confidence": 0.0} for f in specs}}
     if not path.exists():
+        log.warning("%s: source file not found (%s), every field goes to review", rec["doc_id"], path)
         return null_line, {"doc_id": rec["doc_id"], "config": cfg.name, "error": "file missing", "usage": {}, "fields": {}}
     images = page_images(path)
     text, words = text_layer(path)
