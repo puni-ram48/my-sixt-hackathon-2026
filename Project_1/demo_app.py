@@ -198,10 +198,12 @@ if "result" not in st.session_state:
     st.info("Choose a document in the sidebar and press **Run extraction**. "
             "Below: what happens to a document. The router sends contracts and forms to different pipelines.")
     st.markdown("### 🔀 Router: is it a contract (text) or a form / scan (PDF)?")
-    tab_c, tab_f = st.tabs(["📄 Contract pipeline (CUAD)", "🧾 Form / scan pipeline (ExtractBench)"])
-    with tab_c:
+    col_c, col_f = st.columns(2, gap="large")
+    with col_c:
+        st.markdown("#### 📄 Contract (CUAD)")
         st.markdown(flow_cards("contract"), unsafe_allow_html=True)
-    with tab_f:
+    with col_f:
+        st.markdown("#### 🧾 Form / scan (ExtractBench)")
         st.markdown(flow_cards("form"), unsafe_allow_html=True)
     with st.expander("Full diagram (both pipelines on one page)"):
         st.graphviz_chart(flow_dot())
@@ -219,10 +221,12 @@ if is_contract:
 st.subheader(rec["doc_id"])
 with st.expander("🔀 How this document went through the system (live numbers)", expanded=True):
     st.markdown(f"**Router → {'📄 contract pipeline' if is_contract else '🧾 form / scan pipeline'}.** "
-                "Each card is one step; the big number is how many values are still in the running, "
-                "and the coloured line is how many stopped there.")
-    st.markdown(flow_cards("contract" if is_contract else "form", fields, (trace or {}).get("usage", {})),
-                unsafe_allow_html=True)
+                "Each row is one step: the number is how many values are still in the running, "
+                "the pill is how many stopped there.")
+    left_col, _ = st.columns([3, 1])
+    with left_col:
+        st.markdown(flow_cards("contract" if is_contract else "form", fields, (trace or {}).get("usage", {})),
+                    unsafe_allow_html=True)
 if not fields:
     st.warning(f"No per-field decisions: {(trace or {}).get('error') or (trace or {}).get('reason') or 'see logs'}. "
                "All fields were sent to human review.")

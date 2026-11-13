@@ -112,19 +112,18 @@ def flow_dot(active: str | None = None, fields: dict | None = None, usage: dict 
 # ---------------------------------------------------------------- large step-by-step storyboard (HTML)
 
 _CSS = """<style>
-.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;margin:6px 0 14px 0}
-.card{flex:0 0 172px;border-radius:12px;padding:12px 12px 10px 12px;background:#f4f4f6;border:2px solid #d1d1d6;
-      font-family:Helvetica,Arial,sans-serif}
-.card.on{background:#fff1e8;border-color:#FF5F00}
-.card .ic{font-size:26px;line-height:30px}
-.card .t{font-size:16px;font-weight:700;color:#1d1d1f;margin-top:4px}
-.card .s{font-size:13px;color:#555;margin-top:4px;line-height:1.3}
-.card .n{font-size:28px;font-weight:800;color:#1d1d1f;margin-top:6px}
-.card .stop{font-size:13px;font-weight:700;margin-top:4px}
-.arrow{flex:0 0 22px;display:flex;align-items:center;justify-content:center;font-size:26px;color:#FF5F00}
-.final{flex:0 0 172px;border-radius:12px;padding:12px;border:3px solid #1a7f37;background:#eef6ee;
-       font-family:Helvetica,Arial,sans-serif}
-.final .t{font-size:18px;font-weight:800;color:#1a7f37}.final .n{font-size:40px;font-weight:900;color:#1a7f37}
+.stp{font-family:inherit;margin:4px 0 10px 0}
+.stp .row{display:flex;align-items:center;gap:12px;padding:8px 12px;margin:5px 0;border-radius:10px;
+  border-left:4px solid #FF5F00;background:rgba(255,95,0,0.08)}
+.stp .gate{border-left-color:rgba(150,150,150,0.7);background:rgba(150,150,150,0.08)}
+.stp .num{flex:0 0 28px;height:28px;border-radius:50%;background:#FF5F00;color:#fff;font-weight:800;
+  font-size:13px;display:flex;align-items:center;justify-content:center}
+.stp .gate .num{background:rgba(150,150,150,0.85)}
+.stp .txt{flex:1;min-width:0}.stp .t{font-weight:700;font-size:15px}.stp .s{font-size:12.5px;opacity:0.72}
+.stp .val{font-size:17px;font-weight:800;white-space:nowrap}
+.stp .pill{font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;border:1.5px solid;white-space:nowrap}
+.stp .book{border-left-color:#1a7f37;background:rgba(26,127,55,0.12)}.stp .book .num{background:#1a7f37}
+.stp .book .val{color:#2da44e;font-size:22px}
 </style>"""
 
 _CONTRACT_STEPS = [
@@ -155,51 +154,49 @@ _GATE_HELP = {
 }
 
 
-def _card(icon, title, sub, on=True, number=None, stop=None):
-    n = f'<div class="n">{number}</div>' if number is not None else ""
-    st_ = f'<div class="stop" style="color:{stop[1]}">{stop[0]}</div>' if stop else ""
-    return (f'<div class="card {"on" if on else ""}"><div class="ic">{icon}</div><div class="t">{title}</div>'
-            f'<div class="s">{sub}</div>{n}{st_}</div>')
+def _row(i, icon, title, sub, cls="", value=None, pill=None):
+    v = f'<div class="val">{value}</div>' if value is not None else ""
+    pl = f'<div class="pill" style="color:{pill[1]};border-color:{pill[1]}">{pill[0]}</div>' if pill else ""
+    return (f'<div class="row {cls}"><div class="num">{i}</div><div class="txt"><div class="t">{icon} {title}</div>'
+            f'<div class="s">{sub}</div></div>{v}{pl}</div>')
 
 
 def flow_cards(kind: str, fields: dict | None = None, usage: dict | None = None) -> str:
-    """Big step-by-step cards for one branch ('contract' or 'form'); live numbers if fields are given."""
+    """Compact vertical stepper for one branch ('contract' or 'form'); live numbers if fields are given."""
     fields, usage = fields or {}, usage or {}
     live = bool(fields)
     steps = _CONTRACT_STEPS if kind == "contract" else _FORM_STEPS
     gates = CONTRACT_GATES if kind == "contract" else FORM_GATES
-    parts = [_CSS, '<div class="flow">']
     n_fields = len(fields)
     abstain = sum(1 for f in fields.values() if f["decision"] == "ABSTAIN")
     proposed = n_fields - abstain  # every field with a value from at least one reader goes through the checks
-    nums = [None] * len(steps)
+    vals, pills = [None] * len(steps), [None] * len(steps)
     if live and kind == "contract":
-        nums = [f"{n_fields} fields", f"{proposed} values", f"{usage.get('n_clauses', '?')} clauses", None]
-        stops = [None, (f"⚪ {abstain} not present → ABSTAIN", "#6e6e73"), None, None]
+        vals = [f"{n_fields} fields", f"{proposed} values", f"{usage.get('n_clauses', '?')} clauses", None]
+        pills[1] = (f"⚪ {abstain} → ABSTAIN", "#8e8e93")
     elif live:
-        nums = [f"{usage.get('pages', '?')} page(s)", None, None, f"{proposed} values"]
-        stops = [(f"text layer: {'yes' if usage.get('text_layer') else 'no (scan)'}", "#555"), None, None,
-                 (f"⚪ {abstain} both empty → ABSTAIN", "#6e6e73")]
-    else:
-        stops = [None] * len(steps)
-    for i, (ic, t, s) in enumerate(steps):
-        parts.append(_card(ic, t, s, True, nums[i], stops[i]))
-        parts.append('<div class="arrow">➜</div>')
+        vals = [f"{usage.get('pages', '?')} page(s)", None, None, f"{proposed} values"]
+        pills[0] = ("text layer" if usage.get("text_layer") else "scan, no text", "#8e8e93")
+        pills[3] = (f"⚪ {abstain} → ABSTAIN", "#8e8e93")
+    out = [_CSS, '<div class="stp">']
+    i = 0
+    for (ic, t, sub), v, pl in zip(steps, vals, pills):
+        i += 1
+        out.append(_row(i, ic, t, sub, "", v, pl))
     alive = proposed
-    for key, question, out in gates:
+    for key, question, res in gates:
+        i += 1
         stopped = sum(1 for f in fields.values() if key in f["reasons"][0])
-        color = OUT_COLOR[out]
+        color = OUT_COLOR[res]
         if live:
             alive -= stopped
-            parts.append(_card("❓", question, _GATE_HELP.get(question, ""), stopped > 0 or not live,
-                               f"{alive} pass", (f"{_GATE_ICON[out]} {stopped} → {out}", color)))
+            out.append(_row(i, "❓", question, _GATE_HELP.get(question, ""), "gate", f"{alive} pass",
+                            (f"{_GATE_ICON[res]} {stopped} → {res}", color)))
         else:
-            parts.append(_card("❓", question, _GATE_HELP.get(question, ""), True, None,
-                               (f"no → {_GATE_ICON[out]} {out}", color)))
-        parts.append('<div class="arrow">➜</div>')
+            out.append(_row(i, "❓", question, _GATE_HELP.get(question, ""), "gate", None,
+                            (f"no → {_GATE_ICON[res]} {res}", color)))
     book = sum(1 for f in fields.values() if f["decision"] == "BOOK")
-    parts.append(f'<div class="final"><div class="ic" style="font-size:26px">✅</div><div class="t">BOOK</div>'
-                 f'<div class="n">{book if live else ""}</div><div class="s">booked automatically '
-                 f'(confidence ≥ 0.95); everything else goes to a human</div></div>')
-    parts.append("</div>")
-    return "".join(parts)
+    out.append(_row(i + 1, "✅", "BOOK", "Booked automatically (confidence ≥ 0.95). Everything else goes to a human.",
+                    "book", book if live else None))
+    out.append("</div>")
+    return "".join(out)
