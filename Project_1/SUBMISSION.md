@@ -112,7 +112,7 @@ Optional: `FORMS_SECOND_MODEL` (default `gpt-5.5`), `HYBRID_NONCONTRACT` (`forms
 all form fields to a human), `LLM_VERIFY_MODEL`, `HYBRID_EMBED_MODEL`.
 
 ## Demo
-`submission/slides.pdf` (to be added).
+[`submission/demo.mp4`](../submission/demo.mp4): demo video of the dashboard and both pipelines.
 
 ## Next steps
 1. **Raise coverage without new risk.**

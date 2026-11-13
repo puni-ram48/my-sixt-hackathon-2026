@@ -56,7 +56,7 @@ been error-free on 40 calibration forms.
 | [Project_1/results/RESULTS.md](Project_1/results/RESULTS.md) | All 12 contract methods and both form methods compared; why the winners won |
 | [Project_1/EDA.md](Project_1/EDA.md) | Data analysis: what the documents look like, issues found, what the experiments answered |
 | [Project_1/README.md](Project_1/README.md) | Technical write-up: what we did step by step, both methods, decision rules, results, code map, reproduce |
-| [submission/](submission/) | Slides (`slides.pdf`) |
+| [submission/demo.mp4](submission/demo.mp4) | Demo video |
 
 ## Setup and run (step by step)
 
