@@ -24,7 +24,7 @@ from solution.run import load_env  # noqa: E402
 
 load_env(ROOT / ".env")
 
-from demo_flow import flow_dot  # noqa: E402
+from demo_flow import flow_cards, flow_dot  # noqa: E402
 from hybrid.evaluate import scorer  # noqa: E402
 from hybrid.pipeline import CONFIGS, process  # noqa: E402
 from hybrid.retrieve import find_span  # noqa: E402
@@ -196,8 +196,15 @@ if run and rec is not None:
 
 if "result" not in st.session_state:
     st.info("Choose a document in the sidebar and press **Run extraction**. "
-            "Below: what happens to a document, for contracts and for forms.")
-    st.graphviz_chart(flow_dot())
+            "Below: what happens to a document. The router sends contracts and forms to different pipelines.")
+    st.markdown("### 🔀 Router: is it a contract (text) or a form / scan (PDF)?")
+    tab_c, tab_f = st.tabs(["📄 Contract pipeline (CUAD)", "🧾 Form / scan pipeline (ExtractBench)"])
+    with tab_c:
+        st.markdown(flow_cards("contract"), unsafe_allow_html=True)
+    with tab_f:
+        st.markdown(flow_cards("form"), unsafe_allow_html=True)
+    with st.expander("Full diagram (both pipelines on one page)"):
+        st.graphviz_chart(flow_dot())
     st.stop()
 
 rec, line, trace, page_starts = st.session_state["result"]
@@ -210,10 +217,12 @@ if is_contract:
     text = doc_text(rec)
 
 st.subheader(rec["doc_id"])
-with st.expander("🔀 How this document went through the system (live counts)", expanded=True):
-    st.caption("Orange = the path this document took. Each check passes (yes) or stops the value "
-               "(no → REVIEW / REJECT). The numbers are the fields that stopped at each step.")
-    st.graphviz_chart(flow_dot("contract" if is_contract else "form", fields, (trace or {}).get("usage", {})))
+with st.expander("🔀 How this document went through the system (live numbers)", expanded=True):
+    st.markdown(f"**Router → {'📄 contract pipeline' if is_contract else '🧾 form / scan pipeline'}.** "
+                "Each card is one step; the big number is how many values are still in the running, "
+                "and the coloured line is how many stopped there.")
+    st.markdown(flow_cards("contract" if is_contract else "form", fields, (trace or {}).get("usage", {})),
+                unsafe_allow_html=True)
 if not fields:
     st.warning(f"No per-field decisions: {(trace or {}).get('error') or (trace or {}).get('reason') or 'see logs'}. "
                "All fields were sent to human review.")

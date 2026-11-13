@@ -107,3 +107,99 @@ def flow_dot(active: str | None = None, fields: dict | None = None, usage: dict 
                 fill="white"),
           "cbook -> out [style=dashed]; fbook -> out [style=dashed];", "}"]
     return "\n".join(L)
+
+
+# ---------------------------------------------------------------- large step-by-step storyboard (HTML)
+
+_CSS = """<style>
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;margin:6px 0 14px 0}
+.card{flex:0 0 172px;border-radius:12px;padding:12px 12px 10px 12px;background:#f4f4f6;border:2px solid #d1d1d6;
+      font-family:Helvetica,Arial,sans-serif}
+.card.on{background:#fff1e8;border-color:#FF5F00}
+.card .ic{font-size:26px;line-height:30px}
+.card .t{font-size:16px;font-weight:700;color:#1d1d1f;margin-top:4px}
+.card .s{font-size:13px;color:#555;margin-top:4px;line-height:1.3}
+.card .n{font-size:28px;font-weight:800;color:#1d1d1f;margin-top:6px}
+.card .stop{font-size:13px;font-weight:700;margin-top:4px}
+.arrow{flex:0 0 22px;display:flex;align-items:center;justify-content:center;font-size:26px;color:#FF5F00}
+.final{flex:0 0 172px;border-radius:12px;padding:12px;border:3px solid #1a7f37;background:#eef6ee;
+       font-family:Helvetica,Arial,sans-serif}
+.final .t{font-size:18px;font-weight:800;color:#1a7f37}.final .n{font-size:40px;font-weight:900;color:#1a7f37}
+</style>"""
+
+_CONTRACT_STEPS = [
+    ("📄", "Contract in", "Text of the whole contract"),
+    ("🤖", "Claude reads it", "1 call: a value + confidence for each of the 41 clause fields"),
+    ("✂️", "Split into clauses", "Paragraphs and sentence windows, with positions"),
+    ("🧠", "Clause classifier", "Local embeddings: is this clause the right type?"),
+]
+_FORM_STEPS = [
+    ("🧾", "Form / scan in", "PDF pages rendered as images"),
+    ("🅰️", "Reader A: Claude", "Reads every field from the page images"),
+    ("🅱️", "Reader B: GPT-5.5", "Reads the same pages independently"),
+    ("⚖️", "Compare", "Both must find the same value"),
+]
+_GATE_ICON = {"REJECT": "⛔", "REVIEW": "🟡"}
+_GATE_HELP = {
+    "value in the contract?": "Value must appear verbatim in the text",
+    "right clause type?": "Classifier: is the source clause this type?",
+    "classifier sure?": "Unsure clause type → a human checks",
+    "answer complete?": "Other clauses of this type left out?",
+    "whole sentences?": "Clause answers must be whole sentences",
+    "field trusted?": "Field was error-free on calibration data",
+    "confidence >= 0.95?": "The model's own confidence, checked last",
+    "both readers found it?": "One reader found nothing → a human checks",
+    "readers agree?": "Two model families must read the same value",
+    "printed on the page?": "If the PDF has text: is the value on it?",
+    "next to its label?": "Value sits next to its printed label",
+}
+
+
+def _card(icon, title, sub, on=True, number=None, stop=None):
+    n = f'<div class="n">{number}</div>' if number is not None else ""
+    st_ = f'<div class="stop" style="color:{stop[1]}">{stop[0]}</div>' if stop else ""
+    return (f'<div class="card {"on" if on else ""}"><div class="ic">{icon}</div><div class="t">{title}</div>'
+            f'<div class="s">{sub}</div>{n}{st_}</div>')
+
+
+def flow_cards(kind: str, fields: dict | None = None, usage: dict | None = None) -> str:
+    """Big step-by-step cards for one branch ('contract' or 'form'); live numbers if fields are given."""
+    fields, usage = fields or {}, usage or {}
+    live = bool(fields)
+    steps = _CONTRACT_STEPS if kind == "contract" else _FORM_STEPS
+    gates = CONTRACT_GATES if kind == "contract" else FORM_GATES
+    parts = [_CSS, '<div class="flow">']
+    n_fields = len(fields)
+    abstain = sum(1 for f in fields.values() if f["decision"] == "ABSTAIN")
+    proposed = n_fields - abstain  # every field with a value from at least one reader goes through the checks
+    nums = [None] * len(steps)
+    if live and kind == "contract":
+        nums = [f"{n_fields} fields", f"{proposed} values", f"{usage.get('n_clauses', '?')} clauses", None]
+        stops = [None, (f"⚪ {abstain} not present → ABSTAIN", "#6e6e73"), None, None]
+    elif live:
+        nums = [f"{usage.get('pages', '?')} page(s)", None, None, f"{proposed} values"]
+        stops = [(f"text layer: {'yes' if usage.get('text_layer') else 'no (scan)'}", "#555"), None, None,
+                 (f"⚪ {abstain} both empty → ABSTAIN", "#6e6e73")]
+    else:
+        stops = [None] * len(steps)
+    for i, (ic, t, s) in enumerate(steps):
+        parts.append(_card(ic, t, s, True, nums[i], stops[i]))
+        parts.append('<div class="arrow">➜</div>')
+    alive = proposed
+    for key, question, out in gates:
+        stopped = sum(1 for f in fields.values() if key in f["reasons"][0])
+        color = OUT_COLOR[out]
+        if live:
+            alive -= stopped
+            parts.append(_card("❓", question, _GATE_HELP.get(question, ""), stopped > 0 or not live,
+                               f"{alive} pass", (f"{_GATE_ICON[out]} {stopped} → {out}", color)))
+        else:
+            parts.append(_card("❓", question, _GATE_HELP.get(question, ""), True, None,
+                               (f"no → {_GATE_ICON[out]} {out}", color)))
+        parts.append('<div class="arrow">➜</div>')
+    book = sum(1 for f in fields.values() if f["decision"] == "BOOK")
+    parts.append(f'<div class="final"><div class="ic" style="font-size:26px">✅</div><div class="t">BOOK</div>'
+                 f'<div class="n">{book if live else ""}</div><div class="s">booked automatically '
+                 f'(confidence ≥ 0.95); everything else goes to a human</div></div>')
+    parts.append("</div>")
+    return "".join(parts)
